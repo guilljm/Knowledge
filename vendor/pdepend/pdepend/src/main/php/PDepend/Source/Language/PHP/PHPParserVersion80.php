@@ -53,6 +53,8 @@ use PDepend\Source\AST\ASTIdentifier;
 use PDepend\Source\AST\ASTMethod;
 use PDepend\Source\AST\ASTNode;
 use PDepend\Source\AST\ASTScalarType;
+use PDepend\Source\AST\ASTType;
+use PDepend\Source\AST\ASTUnionType;
 use PDepend\Source\AST\State;
 use PDepend\Source\Parser\ParserException;
 use PDepend\Source\Parser\UnexpectedTokenException;
@@ -207,7 +209,7 @@ abstract class PHPParserVersion80 extends PHPParserVersion74
 
         if (isset($states[$token])) {
             $modifier |= $states[$token];
-            $this->tokenizer->next();
+            $this->tokenStack->add($this->tokenizer->next());
         }
 
         return $modifier;
@@ -233,7 +235,7 @@ abstract class PHPParserVersion80 extends PHPParserVersion74
     protected function parseConstantArgument(ASTConstant $constant, ASTArguments $arguments)
     {
         if ($this->tokenizer->peek() === Tokens::T_COLON) {
-            $this->tokenizer->next();
+            $this->tokenStack->add($this->tokenizer->next());
 
             return $this->builder->buildAstNamedArgument(
                 $constant->getImage(),
@@ -312,11 +314,11 @@ abstract class PHPParserVersion80 extends PHPParserVersion74
                 break;
             case Tokens::T_NULL:
                 $type = new ASTScalarType('null');
-                $this->tokenizer->next();
+                $this->tokenStack->add($this->tokenizer->next());
                 break;
             case Tokens::T_FALSE:
                 $type = new ASTScalarType('false');
-                $this->tokenizer->next();
+                $this->tokenStack->add($this->tokenizer->next());
                 break;
             default:
                 $type = parent::parseTypeHint();
@@ -328,44 +330,64 @@ abstract class PHPParserVersion80 extends PHPParserVersion74
         return $type;
     }
 
-    protected function parseUnionTypeHint()
+    /**
+     * @param ASTType $firstType
+     *
+     * @return ASTUnionType
+     */
+    protected function parseUnionTypeHint($firstType)
     {
-        $types = array($this->parseSingleTypeHint());
+        $types = array($firstType);
 
         while ($this->tokenizer->peek() === Tokens::T_BITWISE_OR) {
-            $this->tokenizer->next();
+            $this->tokenStack->add($this->tokenizer->next());
             $types[] = $this->parseSingleTypeHint();
         }
 
-        return $types;
+        $unionType = $this->builder->buildAstUnionType();
+        foreach ($types as $type) {
+            $unionType->addChild($type);
+        }
+
+        return $unionType;
+    }
+
+    protected function parseTypeHintCombination($type)
+    {
+        if ($this->tokenizer->peek() === Tokens::T_BITWISE_OR) {
+            return $this->parseUnionTypeHint($type);
+        }
+
+        return $type;
+    }
+
+    /**
+     * @param ASTNode $type
+     *
+     * @return bool
+     */
+    protected function canNotBeStandAloneType($type)
+    {
+        return $type instanceof ASTScalarType && ($type->isFalse() || $type->isNull());
     }
 
     protected function parseTypeHint()
     {
         $this->consumeComments();
         $token = $this->tokenizer->currentToken();
+        $type = $this->parseSingleTypeHint();
 
-        $types = $this->parseUnionTypeHint();
+        $type = $this->parseTypeHintCombination($type);
 
-        if (count($types) === 1) {
-            if ($types[0] instanceof ASTScalarType && ($types[0]->isFalse() || $types[0]->isNull())) {
-                throw new ParserException(
-                    $types[0]->getImage() . ' can not be used as a standalone type',
-                    0,
-                    $this->getUnexpectedTokenException($token)
-                );
-            }
-
-            return $types[0];
+        if ($this->canNotBeStandAloneType($type)) {
+            throw new ParserException(
+                $type->getImage() . ' can not be used as a standalone type',
+                0,
+                $this->getUnexpectedTokenException($token)
+            );
         }
 
-        $unionType = $this->builder->buildAstUnionType();
-
-        foreach ($types as $type) {
-            $unionType->addChild($type);
-        }
-
-        return $unionType;
+        return $type;
     }
 
     /**

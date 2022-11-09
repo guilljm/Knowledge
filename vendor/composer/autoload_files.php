@@ -12,7 +12,6 @@ return array(
     '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
     '6e3fae29631ef280660b3cdad06f25a8' => $vendorDir . '/symfony/deprecation-contracts/function.php',
     '6cd5651c4fef5ed6b63e8d8b8ffbf3cc' => $vendorDir . '/amphp/byte-stream/lib/functions.php',
-    '23c18046f52bef3eea034657bafda50f' => $vendorDir . '/symfony/polyfill-php81/bootstrap.php',
     '3da389f428d8ee50333e4391c3f45046' => $vendorDir . '/amphp/serialization/src/functions.php',
     '8dc56fe697ca93c4b40d876df1c94584' => $vendorDir . '/amphp/process/lib/functions.php',
     'bcb7d4fc55f4b1a7e10f5806723e9892' => $vendorDir . '/amphp/sync/src/functions.php',

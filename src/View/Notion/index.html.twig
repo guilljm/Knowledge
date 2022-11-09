@@ -1,0 +1,28 @@
+{% extends 'Layout/index.html.twig' %}
+
+{% block title %}
+	KNOWLEDGE
+{% endblock %}
+
+{% block css %}
+	<link rel="stylesheet" href="/assets/css/notion.css">
+{% endblock %}
+
+
+{% block navbar %}
+	{% include 'Notion/subjectnav.html.twig' %}
+{% endblock %}
+
+{% block content %}
+
+	<div class="container-fluid p-0 overflow-hidden">
+
+		{% include 'Notion/notionlist.html.twig' %}
+
+		{% include 'Notion/notion.html.twig' %}
+
+
+	</div>
+
+
+{% endblock %}

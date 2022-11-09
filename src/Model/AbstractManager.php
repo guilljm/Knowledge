@@ -19,10 +19,6 @@ abstract class AbstractManager
         $connection = new Connection();
         $this->pdo = $connection->getConnection();
     }
-
-    /**
-     * Get all row from database.
-     */
     public function selectAll(string $orderBy = '', string $direction = 'ASC'): array
     {
         $query = 'SELECT * FROM ' . static::TABLE;

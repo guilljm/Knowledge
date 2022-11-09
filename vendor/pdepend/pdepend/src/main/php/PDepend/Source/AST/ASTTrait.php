@@ -68,7 +68,10 @@ class ASTTrait extends ASTClass
      */
     public function getProperties()
     {
-        return new ASTArtifactList(array());
+        /** @var ASTProperty[] $list */
+        $list = array();
+
+        return new ASTArtifactList($list);
     }
 
     /**

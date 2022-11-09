@@ -18,9 +18,9 @@ PHPStan focuses on finding errors in your code without actually running it. It c
 even before you write tests for the code. It moves PHP closer to compiled languages in the sense that the correctness of each line of the code
 can be checked before you run the actual line.
 
-**[Read more about PHPStan in an introductory article »](https://phpstan.org/blog/find-bugs-in-your-code-without-writing-tests)**
+**[Read more about PHPStan »](https://phpstan.org/)**
 
-**[Try out PHPStan on the on-line playground! »](https://phpstan.org/)**
+**[Try out PHPStan on the on-line playground! »](https://phpstan.org/try)**
 
 ## Sponsors
 
@@ -42,11 +42,11 @@ can be checked before you run the actual line.
 <br>
 <a href="https://join.rightcapital.com/?utm_source=phpstan&utm_medium=github&utm_campaign=sponsorship"><img src="https://i.imgur.com/1AhB5tW.png" alt="RightCapital" width="283" height="64"></a>
 &nbsp;&nbsp;&nbsp;
-<a href="https://www.contentkingapp.com/?ref=php-developer&utm_source=phpstan&utm_medium=referral&utm_campaign=sponsorship"><img src="https://i.imgur.com/0blm7ki.png" alt="ContentKing" width="283" height="64"></a>
+<a href="https://www.contentkingapp.com/?ref=php-developer&utm_source=phpstan&utm_medium=referral&utm_campaign=sponsorship"><img src="https://i.imgur.com/HHhbPGN.png" alt="ContentKing" width="283" height="64"></a>
 <br>
 <a href="https://zol.fr?utm_source=phpstan"><img src="https://i.imgur.com/dzDgd4s.png" alt="ZOL" width="283" height="64"></a>
 &nbsp;&nbsp;&nbsp;
-<a href="https://kocourek.uk/"><img src="https://i.imgur.com/EX29z98.png" alt="Stepan Kocourek" width="294" height="64"></a>
+<a href="https://www.psyonix.com/"><img src="https://i.imgur.com/p8svxQZ.png" alt="Psyonix" width="254" height="65"></a>
 <br>
 <a href="https://www.shopware.com/en/"><img src="https://i.imgur.com/L4X5w9s.png" alt="Shopware" width="284" height="64"></a>
 &nbsp;&nbsp;&nbsp;
@@ -54,9 +54,10 @@ can be checked before you run the actual line.
 <br>
 <a href="https://www.worksome.com/"><img src="https://i.imgur.com/TQKSwOl.png" alt="Worksome" width="283" height="64"></a>
 &nbsp;&nbsp;&nbsp;
-<a href="https://www.campoint.net/"><img src="https://i.imgur.com/fR6eMUm.png" alt="campoint AG" width="283" height="64"></a>
-<br>
 <a href="https://www.crisp.nl/"><img src="https://i.imgur.com/jRJyPve.png" alt="Crisp.nl" width="283" height="64"></a>
+<br>
+<a href="https://inviqa.com/"><img src="https://i.imgur.com/G99rj45.png" alt="Inviqa" width="254" height="65"></a>
+
 
 [**You can now sponsor my open-source work on PHPStan through GitHub Sponsors.**](https://github.com/sponsors/ondrejmirtes)
 
@@ -73,6 +74,7 @@ All the documentation lives on the [phpstan.org website](https://phpstan.org/):
 * [PHPDocs Basics](https://phpstan.org/writing-php-code/phpdocs-basics) & [PHPDoc Types](https://phpstan.org/writing-php-code/phpdoc-types)
 * [Extension Library](https://phpstan.org/user-guide/extension-library)
 * [Developing Extensions](https://phpstan.org/developing-extensions/extension-types)
+* [API Reference](https://apiref.phpstan.org/)
 
 ## PHPStan Pro
 

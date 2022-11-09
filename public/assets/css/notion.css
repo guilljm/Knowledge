@@ -1,0 +1,49 @@
+/* ---------- Theme page ---------- */
+
+.body-theme-h {
+    height: calc(100vh - 60px - 40px - 40px);
+}
+
+.nav-h {
+    height: 40px;
+}
+
+.aside-w {
+    width: 300px !important;
+}
+
+.body-margin {
+    margin-left: 300px !important;
+}
+
+.lecon-exemples-card {
+    height: 450px !important;
+}
+
+.exercices-card {
+    height: 200px !important;
+}
+
+.textarea-form {
+    border: none;
+    overflow: auto;
+    outline: none;
+    box-shadow: none;
+    resize: none;
+}
+
+
+a:hover,
+.hover:hover {
+    color: red !important;
+}
+
+.dropdown-menu {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+
+.list-group-item a {
+    text-decoration: none;
+}

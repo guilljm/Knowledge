@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit2610007b1dc98ea0804c98dd925c3650
+class ComposerStaticInit159446b6a6758c54904542b4ef0c08d7
 {
     public static $files = array (
         'e8aa6e4b5a1db2f56ae794f1505391a8' => __DIR__ . '/..' . '/amphp/amp/lib/functions.php',
@@ -13,7 +13,6 @@ class ComposerStaticInit2610007b1dc98ea0804c98dd925c3650
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '6cd5651c4fef5ed6b63e8d8b8ffbf3cc' => __DIR__ . '/..' . '/amphp/byte-stream/lib/functions.php',
-        '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
         '3da389f428d8ee50333e4391c3f45046' => __DIR__ . '/..' . '/amphp/serialization/src/functions.php',
         '8dc56fe697ca93c4b40d876df1c94584' => __DIR__ . '/..' . '/amphp/process/lib/functions.php',
         'bcb7d4fc55f4b1a7e10f5806723e9892' => __DIR__ . '/..' . '/amphp/sync/src/functions.php',
@@ -39,7 +38,6 @@ class ComposerStaticInit2610007b1dc98ea0804c98dd925c3650
         ),
         'S' => 
         array (
-            'Symfony\\Polyfill\\Php81\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
             'Symfony\\Polyfill\\Intl\\Grapheme\\' => 31,
@@ -85,6 +83,7 @@ class ComposerStaticInit2610007b1dc98ea0804c98dd925c3650
         ),
         'D' => 
         array (
+            'Doctrine\\Deprecations\\' => 22,
             'Doctrine\\Common\\Collections\\' => 28,
         ),
         'C' => 
@@ -114,10 +113,6 @@ class ComposerStaticInit2610007b1dc98ea0804c98dd925c3650
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
-        ),
-        'Symfony\\Polyfill\\Php81\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php81',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
@@ -227,6 +222,10 @@ class ComposerStaticInit2610007b1dc98ea0804c98dd925c3650
         array (
             0 => __DIR__ . '/..' . '/gitonomy/gitlib/src/Gitonomy/Git',
         ),
+        'Doctrine\\Deprecations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/deprecations/lib/Doctrine/Deprecations',
+        ),
         'Doctrine\\Common\\Collections\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/collections/lib/Doctrine/Common/Collections',
@@ -290,16 +289,15 @@ class ComposerStaticInit2610007b1dc98ea0804c98dd925c3650
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
-        'ReturnTypeWillChange' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit2610007b1dc98ea0804c98dd925c3650::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit2610007b1dc98ea0804c98dd925c3650::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit2610007b1dc98ea0804c98dd925c3650::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit2610007b1dc98ea0804c98dd925c3650::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit159446b6a6758c54904542b4ef0c08d7::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit159446b6a6758c54904542b4ef0c08d7::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit159446b6a6758c54904542b4ef0c08d7::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit159446b6a6758c54904542b4ef0c08d7::$classMap;
 
         }, null, ClassLoader::class);
     }

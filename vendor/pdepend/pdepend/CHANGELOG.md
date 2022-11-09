@@ -1,3 +1,34 @@
+pdepend-2.12.1 (2022/09/08)
+==========================
+
+- Fixed [\#631](https://github.com/pdepend/pdepend/pull/631): Fix enum visit
+
+pdepend-2.12.0 (2022/09/07)
+==========================
+
+- Added [\#618](https://github.com/pdepend/pdepend/pull/618): Implement support for PHP 8.2 null/false stand-alone type
+- Added [\#620](https://github.com/pdepend/pdepend/pull/620): Implement support for PHP 8.2 true type
+- Added [\#625](https://github.com/pdepend/pdepend/pull/625): Implement support for PHP 8.2 Readonly Classes
+- Added [\#626](https://github.com/pdepend/pdepend/pull/626): Implement support for PHP 8.2 Disjunctive Normal Form Types
+- Fixed [\#630](https://github.com/pdepend/pdepend/pull/630): Fix parsing of by-reference vararg parameters
+
+pdepend-2.11.1 (2022/09/01)
+==========================
+
+- Fixed [\#622](https://github.com/pdepend/pdepend/pull/622): Fix ASTEnum serialization
+
+pdepend-2.11.0 (2022/08/29)
+==========================
+
+- Added [\#600](https://github.com/pdepend/pdepend/pull/600): Support integer non-decimal notations
+- Added [\#598](https://github.com/pdepend/pdepend/pull/598): Support PHP 8.1 in-initializers
+- Added [\#610](https://github.com/pdepend/pdepend/pull/610): Support PHP 8.1 support pure intersection types
+- Added [\#613](https://github.com/pdepend/pdepend/pull/613): Support PHP 8.1 first class callable syntax
+- Added [\#608](https://github.com/pdepend/pdepend/pull/608): Support PHP 8.1 enums
+- Fixed [\#593](https://github.com/pdepend/pdepend/pull/593): Fix cache for STDIN usage
+- Fixed [\#603](https://github.com/pdepend/pdepend/pull/603): Allow coma-separated variables in short-tags
+- Fixed [\#604](https://github.com/pdepend/pdepend/pull/604): Support key variable in list unpacking
+
 pdepend-2.10.3 (2022/02/23)
 ==========================
 

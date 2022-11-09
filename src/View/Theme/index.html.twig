@@ -1,0 +1,26 @@
+{% extends 'Layout/index.html.twig' %}
+
+{% block title %}
+	KNOWLEDGE
+{% endblock %}
+
+{% block css %}
+	<link rel="stylesheet" href="/assets/css/theme.css">
+{% endblock %}
+
+{% block content %}
+	<form method="post">
+		<div class="row body-h flex-row">
+
+			<div class="col-8 d-flex justify-content-center bg-clair">
+				<div class="d-flex justify-content-center align-items-center">
+					<img class="h-75 rounded-bottom rounded-5" src="/../assets/images/knowledge.png">
+				</div>
+			</div>
+
+			{% include 'Theme/theme.html.twig' %}
+
+		</div>
+	</form>
+
+{% endblock %}

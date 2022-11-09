@@ -78,11 +78,21 @@ class ASTType extends AbstractASTNode
     }
 
     /**
-     * This method will return <b>true</b> when this type use union pipe tos specify multiple types.
+     * This method will return <b>true</b> when this type use union pipe to specify multiple types.
      *
      * @return bool
      */
     public function isUnion()
+    {
+        return false;
+    }
+
+    /**
+     * This method will return <b>true</b> when this type uses intersection ampersand to specify multiple types.
+     *
+     * @return bool
+     */
+    public function isIntersection()
     {
         return false;
     }

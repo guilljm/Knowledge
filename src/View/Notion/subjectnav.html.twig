@@ -1,0 +1,53 @@
+<nav class="nav-h navbar navbar-expand-md bg-green ">
+
+	<div class="container-fluid p-0">
+
+		<ul class="navbar-nav text-center align-items-center ">
+
+			{% for i in range(0,7) %}
+
+				<li class="col-2 me-3 nav-item">
+
+
+					{% if idsubject == subjects[i].id %}
+
+						<a class="nav-link hover fs-6 bg-clair text-color-green" href="/subject?id={{ subjects[i].id }}">{{ subjects[i].id }}
+							{{ subjects[i].name }}</a>
+					{% else %}
+						{# <a class="hover-a fs-6 text-color-clair nav-link ">test</a> #}
+
+						<a class="nav-link text-color-clair fs-6" href="/subject?id={{ subjects[i].id }}">{{ subjects[i].name }}</a>
+					{% endif %}
+
+				</li>
+			{% endfor %}
+		</ul>
+
+		<ul class="navbar-nav  align-items-center">>
+			{% if subjects|length > 8 %}
+
+				<li class="nav-item dropdown me-3">
+					<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+						<span class="bg-clair navbar-toggler-icon"></span>
+					</a>
+
+					<ul class="dropdown-menu bg-green">
+						{% for i in range(8,subjects|length) %}
+							<li>
+								<a class="menu-item text-color-white nav-link fs-6" href="/subject?id={{ subjects[i].id }}">{{ subjects[i].name }}</a>
+							</li>
+
+						{% endfor %}
+
+					</ul>
+				</li>
+
+			{% endif %}
+
+			<a class="" href="">📝</a>
+			<a class="ms-3" href="">🛠</a>
+			<a class="ms-3 me-3 " href="">🧻</a>
+
+		</ul>
+	</div>
+</nav>

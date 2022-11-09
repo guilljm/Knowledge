@@ -12,6 +12,7 @@
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Symfony\Component\Config\Loader\ParamConfigurator;
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Argument\AbstractArgument;
 use Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
@@ -26,12 +27,12 @@ abstract class AbstractConfigurator
     public const FACTORY = 'unknown';
 
     /**
-     * @var callable(mixed, bool $allowService)|null
+     * @var callable(mixed, bool)|null
      */
     public static $valuePreProcessor;
 
     /** @internal */
-    protected $definition = null;
+    protected Definition|Alias|null $definition = null;
 
     public function __call(string $method, array $args)
     {
@@ -96,7 +97,7 @@ abstract class AbstractConfigurator
 
         switch (true) {
             case null === $value:
-            case is_scalar($value):
+            case \is_scalar($value):
                 return $value;
 
             case $value instanceof ArgumentInterface:

@@ -1,0 +1,13 @@
+<div class="col-4 d-flex justify-content-center align-items-center bg-green">
+	<ul>
+
+		{% for theme in themes %}
+			<li class="p-4 border-bottom border-top bg-green">
+				<a class="menu-themes fs-4" href="/subject?id={{theme.id}}">{{theme.name}}</a>
+
+				{# <button type="submit" value="{{theme.id}}" name="theme_id" class=" form-control">{{theme.name}}</button> #}
+			</li>
+		{% endfor %}
+
+	</ul>
+</div>
