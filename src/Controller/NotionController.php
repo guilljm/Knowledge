@@ -11,11 +11,16 @@ class NotionController extends AbstractController
     /**
      * Display home page
      */
-    public function index(string $notionId): string
+    public function show(string $notionId): string
     {
-
         if (!is_numeric($notionId)) {
             header("Location: /");
+        }
+
+        if (!isset($_SESSION['theme_id']) || !isset($_SESSION['theme_name'])) {
+            var_dump($_SESSION);
+            exit();
+            return "Session variables undefined";
         }
 
         //Récuperer l'id du sujet de la notion
@@ -25,25 +30,28 @@ class NotionController extends AbstractController
         //récuperer toutes les notions du sujet
         $notions = $notionManager->selectAllBySubject($subjectId);
 
-        $themeManager = new ThemeManager();
-
-        //Récuperer le thème à partir du sujet
-        $theme = $themeManager->selectThemeBySubject((int)$subjectId);
-
         $subjectManager = new SubjectManager();
 
         //récuperer tous les sujets à partir du theme
-        $subjects = $subjectManager->selectAllByTheme((int)$theme['id']);
+        $subjects = $subjectManager->selectAllByTheme((int)$_SESSION['theme_id']);
 
         return $this->twig->render(
             'Notion/index.html.twig',
             [
-                'headertitle' => $theme['name'],
+                'headerTitle' => $_SESSION['theme_name'],
                 'subjects' => $subjects,
                 'notions' => $notions,
                 'notion' => $notionManager->selectOneById((int)$notionId),
                 'idsubject' => $subjectId
             ]
+        );
+    }
+
+    public function add(): string
+    {
+        return $this->twig->render(
+            'Notion/add.html.twig',
+            []
         );
     }
 }

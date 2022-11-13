@@ -1,47 +1,39 @@
 <div class="body-h aside-w bg-clair position-fixed">
 
-	<div class="row d-flex mt-5 ms-0 align-items-center border w-100">
-
-		<div class="col-6 mt-2 text-center">
-			<p class="fs-5 ps-4">Notions</p>
-		</div>
-
-		<div class="col-6 mt-2 text-end">
-			<p class="fs-4">
-				<a>📝</a>
-			</p>
-		</div>
-	</div>
-
-
-	<div class="row list-group mt-5 notion-scroll">
+	<div class="row me-0 mt-5 list-group">
 		{% set first = 1 %}
+
+		<div class="d-flex align-items-center justify-content-between list-group-item border-0 bg-green list-group-item-action active">
+			<p class="h5 mt-1">Notions</p>
+			<a class="" href="/notion/add?idsubject={{ idusbject }}">📝</a>
+		</div>
 
 		{% for notionitem in notions %}
 
-			<div class="container justify-content-around fs-6">
+			{# <div class="container-fluid fs-6"> #}
 
-				{% if notion.id == notionitem.id %}
-					<div class="list-group-item bg-green border-top-0 d-flex align-items-center justify-content-between">
-						<a class="hover menu-item text-color-clair pe-5" href="/notion/?id={{notionitem.id}}">{{ notionitem.name}}</a>
-						<div>
-							<a class="fs-5" href="">🛠</a>
-							<a class="fs-5" href="">🧻</a>
-						</div>
+			{% if notion.id == notionitem.id %}
+				<div class="list-group-item bg-secondary border-top-0 d-flex align-items-center justify-content-between">
+					<a class="text-color-clair" href="/notion/show?id={{notionitem.id}}">{{ notionitem.name}}</a>
+					<div>
+						<a class="fs-5" href="">🛠</a>
+						<a class="fs-5" href="">🧻</a>
 					</div>
-				{% else %}
-					<div class="list-group-item bg-clair">
-						{% if first %}
-							<a class="hover menu-item text-color-green pe-5" href="/notion/?id={{notionitem.id}}">{{ notionitem.name}}</a>
-						{% else %}
-							<a class="hover menu-item border-top-0 pe-5 text-color-green" href="/notion/?id={{notionitem.id}}">{{ notionitem.name}}</a>
-						{% endif %}
-					</div>
-				{% endif %}
+				</div>
+			{% else %}
+				<div class="list-group-item bg-clair">
+					{% if first %}
+						<a class="hover text-color-green pe-5" href="/notion/show?id={{notionitem.id}}">{{ notionitem.name}}</a>
+					{% else %}
+						<a class="hover border-top-0 pe-5 text-color-green" href="/notion/show?id={{notionitem.id}}">{{ notionitem.name}}</a>
+					{% endif %}
+				</div>
+			{% endif %}
 
-			</div>
+			{# </div> #}
 			{% set first = 0 %}
 		{% endfor %}
+
 
 	</div>
 </div>

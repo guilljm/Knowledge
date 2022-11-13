@@ -8,23 +8,22 @@ use App\Model\ThemeManager;
 
 class SubjectController extends AbstractController
 {
-    /**
-     * Display Subject List, Notion List & select active subject
-     */
-    public function index(string $subjectId): string
+    public function show(string $subjectId): string
     {
         if (!is_numeric($subjectId)) {
             header("Location: /");
         }
 
-        $themeManager = new ThemeManager();
+        if (!isset($_SESSION['theme_id']) || !isset($_SESSION['theme_name'])) {
 
-        //Récuperer le thème à partir du sujet
-        $theme = $themeManager->selectThemeBySubject((int)$subjectId);
+            return "Session variables undefined";
+        }
+
 
         //Récuperer tous les sujets du thème
         $subjectManager = new SubjectManager();
-        $subjects = $subjectManager->selectAllByTheme((int)$theme['id']);
+        // $subjects = $subjectManager->selectAllByTheme((int)$theme['id']);
+        $subjects = $subjectManager->selectAllByTheme((int)$_SESSION['theme_id']);
 
         //Récuperer toutes les notions du sujet
         $notionManager = new NotionManager();
@@ -33,7 +32,7 @@ class SubjectController extends AbstractController
         return $this->twig->render(
             'Notion/index.html.twig',
             [
-                'headertitle' => $theme['name'],
+                'headerTitle' => $_SESSION['theme_name'],
                 'subjects' => $subjects,
                 'notions' => $notions,
                 'idsubject' => $subjectId

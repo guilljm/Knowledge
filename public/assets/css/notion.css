@@ -47,3 +47,14 @@ a:hover,
 .list-group-item a {
     text-decoration: none;
 }
+
+.form-file::before {
+    content: "Image à inclure";
+    position: absolute;
+    background-color: #eee;
+    width: 120px;
+}
+
+.button-margin-bottom {
+    margin-bottom: 200px;
+}
