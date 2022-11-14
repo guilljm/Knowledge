@@ -6,7 +6,7 @@
 			<div class="card lecon-exemples-card bg-white mb-3" style="height:600px;">
 				<p class="h5 card-header">Leçon</p>
 				<div class="card-body">
-					<p class="card-body">{{notion.lesson | nl2br }}</p>
+					<p class="card-text">{{notion.lesson | nl2br }}</p>
 				</div>
 			</div>
 		</div>
@@ -15,7 +15,7 @@
 			<div class="card lecon-exemples-card bg-white">
 				<p class="h5 card-header">Exemple</p>
 				<div class="card-body">
-					<p class="card-text text-nowrap">{{ notion.sample | nl2br}}</p>
+					<p class="card-text">{{ notion.sample | nl2br}}</p>
 					<img src="{{notion.image}}">
 				</div>
 			</div>
@@ -26,18 +26,28 @@
 
 		<div class="col-11">
 			<div class="card exercices-card">
+
 				<div class="card-header d-flex justify-content-between align-items-center">
 					<p class="h5">Exercices</p>
 					<div>
 						<a class="fs-5" href="/exercise/add">📝</a>
-						<a class="fs-5 ms-3" href="">🛠</a>
-						<a class="fs-5 ms-3 me-3 " href="">🧻</a>
 					</div>
 				</div>
 
 				<div class="card-body">
-					<p class="card-text">Exercices ...</p>
+					{% for exercise in exercises %}
+						<div class="border border-5 border-bottom p-1 bg-light-grey d-flex flex-nowrap align-items-center justify-content-between">
+
+							<a class="bg-light-grey text-color-green fs-5" href="{{exercise.url}}">{{ exercise.name }}</a>
+
+							<div>
+								<a class="fs-5" href="">🛠</a>
+								<a class="fs-5" href="">🧻</a>
+							</div>
+						</div>
+					{% endfor %}
 				</div>
+
 			</div>
 
 		</div>

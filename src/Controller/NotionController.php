@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Model\ExerciseManager;
 use App\Model\SubjectManager;
 use App\Model\ThemeManager;
 use App\Model\NotionManager;
@@ -35,6 +36,11 @@ class NotionController extends AbstractController
         //récuperer tous les sujets à partir du theme
         $subjects = $subjectManager->selectAllByTheme((int)$_SESSION['theme_id']);
 
+        // récupérer tous les exercices d'un notion
+        $exerciseManager = new ExerciseManager();
+
+        $exercises = $exerciseManager->selectAllByNotion($notionId);
+
         return $this->twig->render(
             'Notion/index.html.twig',
             [
@@ -42,6 +48,7 @@ class NotionController extends AbstractController
                 'subjects' => $subjects,
                 'notions' => $notions,
                 'notion' => $notionManager->selectOneById((int)$notionId),
+                'exercises' => $exercises,
                 'idsubject' => $subjectId
             ]
         );
