@@ -6,16 +6,17 @@
 			<div class="card lecon-exemples-card bg-white mb-3" style="height:600px;">
 				<p class="h5 card-header">Leçon</p>
 				<div class="card-body">
-					<p class="card-body">{{notion.lesson}}</p>
+					<p class="card-body">{{notion.lesson | nl2br }}</p>
 				</div>
 			</div>
 		</div>
 
 		<div class="col-5 mt-4">
 			<div class="card lecon-exemples-card bg-white">
-				<p class="h5 card-header">Exemples</p>
+				<p class="h5 card-header">Exemple</p>
 				<div class="card-body">
-					<p class="card-text">{{notion.sample}}</p>
+					<p class="card-text text-nowrap">{{ notion.sample | nl2br}}</p>
+					<img src="{{notion.image}}">
 				</div>
 			</div>
 		</div>

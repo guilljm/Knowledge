@@ -49,5 +49,10 @@
     }
 
     .bg-green {
-        background-color: #223d3c !important;
+        background-color: var(--color-green) !important;
+    }
+
+
+    .bg-light-grey {
+        background-color: lightgrey !important;
     }

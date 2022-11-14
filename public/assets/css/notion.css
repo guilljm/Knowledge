@@ -35,7 +35,7 @@
 
 a:hover,
 .hover:hover {
-    color: red !important;
+    color: rgb(172, 172, 235) !important;
 }
 
 .dropdown-menu {

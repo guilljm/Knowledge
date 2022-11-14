@@ -12,6 +12,8 @@ return [
     'subject/show' => ['SubjectController', 'show', ['id']],
     'notion/show' => ['NotionController', 'show', ['id']],
     'notion/add' => ['NotionController', 'add', ['idsubject']],
+    'notion/update' => ['NotionController', 'update', ['id']],
+    'notion/delete' => ['NotionController', 'delete', ['id']],
     'exercise/add' => ['ExerciseController', 'add'],
 
 ];

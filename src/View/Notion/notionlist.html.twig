@@ -5,19 +5,21 @@
 
 		<div class="d-flex align-items-center justify-content-between list-group-item border-0 bg-green list-group-item-action active">
 			<p class="h5 mt-1">Notions</p>
-			<a class="" href="/notion/add?idsubject={{ idusbject }}">📝</a>
+			{% if idsubject is defined %}
+				<a href="/notion/add?idsubject={{ idsubject }}">📝</a>
+			{% endif %}
 		</div>
 
 		{% for notionitem in notions %}
 
-			{# <div class="container-fluid fs-6"> #}
-
 			{% if notion.id == notionitem.id %}
-				<div class="list-group-item bg-secondary border-top-0 d-flex align-items-center justify-content-between">
-					<a class="text-color-clair" href="/notion/show?id={{notionitem.id}}">{{ notionitem.name}}</a>
+				<div class="list-group-item bg-light-grey border-top-0 d-flex align-items-center justify-content-between">
+					<a class="text-color-green" href="/notion/show?id={{notionitem.id}}">
+						<strong>{{ notionitem.name}}</strong>
+					</a>
 					<div>
-						<a class="fs-5" href="">🛠</a>
-						<a class="fs-5" href="">🧻</a>
+						<a class="fs-5" href="/notion/update?id={{notionitem.id}}">🛠</a>
+						<a class="fs-5" href="/notion/delete?id={{notionitem.id}}">🧻</a>
 					</div>
 				</div>
 			{% else %}
@@ -30,7 +32,6 @@
 				</div>
 			{% endif %}
 
-			{# </div> #}
 			{% set first = 0 %}
 		{% endfor %}
 
