@@ -16,7 +16,9 @@
 				<p class="h5 card-header">Exemple</p>
 				<div class="card-body">
 					<p class="card-text">{{ notion.sample | nl2br}}</p>
-					<img src="{{notion.image}}">
+					{% if notion.image is not empty %}
+						<img src="{{notion.image}}">
+					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -41,7 +43,7 @@
 							<a class="bg-light-grey text-color-green fs-5" href="{{exercise.url}}">{{ exercise.name }}</a>
 
 							<div>
-								<a class="fs-5" href="/exercise/update?id={{exercise.id}}">🛠</a>
+								<a class="fs-5" href="/exercise/edit?id={{exercise.id}}">🛠</a>
 								<a class="fs-5" href="/exercise/delete?id={{exercise.id}}">🧻</a>
 							</div>
 						</div>

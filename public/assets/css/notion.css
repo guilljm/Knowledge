@@ -8,6 +8,11 @@
     height: 40px;
 }
 
+img {
+    height: 300px;
+    width: 300px;
+}
+
 .aside-w {
     width: 300px !important;
 }

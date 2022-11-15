@@ -118,22 +118,24 @@ class NotionController extends AbstractController
             $sample = $_POST['sample'];
 
             $notionManager = new NotionManager();
-            $notionManager->add((int)$subjectId, $notionName, $lesson, $sample, $fileNameImg);
-            header("Location: /subject/show?id=" . $subjectId);
+            $newNotionId = $notionManager->add((int)$subjectId, $notionName, $lesson, $sample, $fileNameImg);
+
+            header("Location: /exercise/add?idnotion=" . $newNotionId);
 
             return "";
         }
 
         return $this->twig->render(
-            'Notion/add_update.html.twig',
+            'Notion/add.html.twig',
             [
                 'headerTitle' => $_SESSION['theme_name'],
+                'titleForm' => 'Ajouter une nouvelle notion'
             ]
         );
     }
 
 
-    public function update(string $notionId): string
+    public function edit(string $notionId): string
     {
         if (!is_numeric($notionId)) {
             header("Location: /");
@@ -203,12 +205,13 @@ class NotionController extends AbstractController
         $sample = $notion['sample'];
 
         return $this->twig->render(
-            'Notion/add_update.html.twig',
+            'Notion/edit.html.twig',
             [
                 'headerTitle' => $_SESSION['theme_name'],
                 'notionName' => $notionName,
                 'lesson' => $lesson,
-                'sample' => $sample
+                'sample' => $sample,
+                'titleForm' => 'Modifier cette notion'
             ]
         );
     }

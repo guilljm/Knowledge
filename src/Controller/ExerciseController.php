@@ -20,7 +20,6 @@ class ExerciseController extends AbstractController
         if (!isset($_SESSION['theme_id']) || !isset($_SESSION['theme_name'])) {
             return "Session variables undefined";
         }
-
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $notionManager = new NotionManager();
@@ -48,12 +47,12 @@ class ExerciseController extends AbstractController
         }
 
         return $this->twig->render(
-            'Exercise/add_update.html.twig',
-            []
+            'Exercise/add.html.twig',
+            ['titleForm' => 'Ajouter un nouvel exercice']
         );
     }
 
-    public function update(string $exerciseId): string
+    public function edit(string $exerciseId): string
     {
 
         if (!is_numeric($exerciseId)) {
@@ -87,10 +86,11 @@ class ExerciseController extends AbstractController
 
 
         return $this->twig->render(
-            'Exercise/add_update.html.twig',
+            'Exercise/edit.html.twig',
             [
                 'name' => $exercise['name'],
-                'url' => $exercise['url']
+                'url' => $exercise['url'],
+                'titleForm' => 'Modifier cette exercice'
             ]
         );
     }

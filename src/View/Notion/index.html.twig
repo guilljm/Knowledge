@@ -15,12 +15,17 @@
 
 {% block content %}
 
-	<div class="container-fluid p-0 overflow-hidden">
+	<div
+		class="container-fluid p-0 overflow-hidden">
 
+		{# {% if notions is not empty %} #}
 		{% include 'Notion/notionlist.html.twig' %}
+		{# {% endif %} #}
 
-		{% if notion is defined %}
+		{% if notion %}
 			{% include 'Notion/notion.html.twig' %}
+		{% else %}
+			{% include 'Notion/notionlogo.html.twig' %}
 		{% endif %}
 
 
