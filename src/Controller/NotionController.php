@@ -30,14 +30,13 @@ class NotionController extends AbstractController
         //récuperer toutes les notions du sujet
         $notions = $notionManager->selectAllBySubject($subjectId);
 
+        //récuperer le sujet et tous les sujets à partir du theme
         $subjectManager = new SubjectManager();
-
-        //récuperer tous les sujets à partir du theme
         $subjects = $subjectManager->selectAllByTheme((int)$_SESSION['theme_id']);
+        $subject = $subjectManager->selectOneById((int)$subjectId);
 
         // récupérer tous les exercices d'un notion
         $exerciseManager = new ExerciseManager();
-
         $exercises = $exerciseManager->selectAllByNotion($notionId);
 
         return $this->twig->render(
@@ -45,6 +44,7 @@ class NotionController extends AbstractController
             [
                 'headerTitle' => $_SESSION['theme_name'],
                 'subjects' => $subjects,
+                'subjectname' => $subject['name'],
                 'notions' => $notions,
                 'notion' => $notionManager->selectOneById((int)$notionId),
                 'exercises' => $exercises,

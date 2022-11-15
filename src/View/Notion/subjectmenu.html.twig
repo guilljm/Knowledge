@@ -4,7 +4,7 @@
 
 		<ul class="navbar-nav text-center align-items-center ">
 
-			{% for i in range(0,7) %}
+			{% for i in range(0,8) %}
 
 				<li class="col-2 me-3 nav-item">
 
@@ -16,21 +16,22 @@
 					{% endif %}
 
 				</li>
+
 			{% endfor %}
 		</ul>
 
-		<ul class="navbar-nav  align-items-center">>
-			{% if subjects|length > 8 %}
+		<ul class="navbar-nav align-items-center">>
+			{% if subjects|length > 9 %}
 
-				<li class="nav-item dropdown me-3">
+				<li class="nav-item dropdown me-5">
 					<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
 						<span class="bg-clair navbar-toggler-icon"></span>
 					</a>
 
 					<ul class="dropdown-menu bg-green">
-						{% for i in range(8,subjects|length) %}
+						{% for i in range(9,subjects|length) %}
 							<li>
-								<a class="menu-item text-color-white nav-link fs-6" href="/subject?id={{ subjects[i].id }}">{{ subjects[i].name }}</a>
+								<a class="menu-item text-color-white nav-link fs-6" href="/subject/show?id={{ subjects[i].id }}">{{ subjects[i].name }}</a>
 							</li>
 
 						{% endfor %}
@@ -40,9 +41,14 @@
 
 			{% endif %}
 
-			<a class="" href="">📝</a>
-			<a class="ms-3" href="">🛠</a>
-			<a class="ms-3 me-3 " href="">🧻</a>
+
+			{% if (idsubject is defined) %}
+				<a class="" href="/subject/add">📝</a>
+				<a class="ms-3" href="/subject/edit?id={{idsubject}}">🛠</a>
+				<a class="ms-3 me-3 " href="/subject/delete?id={{idsubject}}">🧻</a>
+			{% else %}
+				<a class="me-5" href="/subject/add">📝</a>
+			{% endif %}
 
 		</ul>
 	</div>

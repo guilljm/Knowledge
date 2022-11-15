@@ -1,6 +1,15 @@
 <div class="body-h aside-w bg-clair position-fixed">
 
-	<div class="row me-0 mt-5 list-group">
+	{% for subject in subjects %}
+		{% if (subject.id == idsubject) %}
+			<p class="mt-3 fs-5 text-center text-color-green">
+				<strong>{{ subjectname }}</strong>
+			</p>
+		{% endif %}
+	{% endfor %}
+
+
+	<div class="row me-0 mt-1 list-group">
 		{% set first = 1 %}
 
 		{% if idsubject is defined %}

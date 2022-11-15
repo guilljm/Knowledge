@@ -29,4 +29,30 @@ class SubjectManager extends AbstractManager
         return $statement->fetchAll();
         // return (int)$this->pdo->lastInsertId();
     }
+
+    public function add(int $themeId, string $name): int
+    {
+
+        $statement = $this->pdo->prepare("INSERT INTO " . self::TABLE . " 
+            (name, theme_id) VALUES (:name, :theme_id)");
+
+        $statement->bindValue('theme_id', $themeId, \PDO::PARAM_INT);
+        $statement->bindValue('name', $name, \PDO::PARAM_STR);
+        $statement->execute();
+
+        return $this->pdo->lastInsertId();
+    }
+
+    public function update(int $subjectId, string $name): int
+    {
+
+        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " 
+            SET name = :name WHERE id = :id");
+
+        $statement->bindValue('name', $name, \PDO::PARAM_STR);
+        $statement->bindValue('id', (int)$subjectId, \PDO::PARAM_INT);
+        $statement->execute();
+
+        return $this->pdo->lastInsertId();
+    }
 }
