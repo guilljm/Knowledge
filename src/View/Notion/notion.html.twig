@@ -30,7 +30,7 @@
 				<div class="card-header d-flex justify-content-between align-items-center">
 					<p class="h5">Exercices</p>
 					<div>
-						<a class="fs-5" href="/exercise/add">📝</a>
+						<a class="fs-5" href="/exercise/add?idnotion={{ notion.id }}">📝</a>
 					</div>
 				</div>
 
@@ -41,8 +41,8 @@
 							<a class="bg-light-grey text-color-green fs-5" href="{{exercise.url}}">{{ exercise.name }}</a>
 
 							<div>
-								<a class="fs-5" href="">🛠</a>
-								<a class="fs-5" href="">🧻</a>
+								<a class="fs-5" href="/exercise/update?id={{exercise.id}}">🛠</a>
+								<a class="fs-5" href="/exercise/delete?id={{exercise.id}}">🧻</a>
 							</div>
 						</div>
 					{% endfor %}

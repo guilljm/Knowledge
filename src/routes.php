@@ -14,6 +14,8 @@ return [
     'notion/add' => ['NotionController', 'add', ['idsubject']],
     'notion/update' => ['NotionController', 'update', ['id']],
     'notion/delete' => ['NotionController', 'delete', ['id']],
-    'exercise/add' => ['ExerciseController', 'add'],
+    'exercise/add' => ['ExerciseController', 'add', ['idnotion']],
+    'exercise/update' => ['ExerciseController', 'update', ['id']],
+    'exercise/delete' => ['ExerciseController', 'delete', ['id']]
 
 ];

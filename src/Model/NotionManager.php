@@ -20,18 +20,18 @@ class NotionManager extends AbstractManager
     }
 
 
-    public function getSubjectId(int $notionId): int
-    {
-        $statement = $this->pdo->prepare("SELECT subject_id FROM " . self::TABLE . " WHERE `id` = :id");
-        $statement->bindValue('id', $notionId, \PDO::PARAM_INT);
-        $statement->execute();
+    // public function getSubjectId(int $notionId): int
+    // {
+    //     $statement = $this->pdo->prepare("SELECT subject_id FROM " . self::TABLE . " WHERE `id` = :id");
+    //     $statement->bindValue('id', $notionId, \PDO::PARAM_INT);
+    //     $statement->execute();
 
 
-        return (int)$statement->fetch()['subject_id'];
-    }
+    //     return (int)$statement->fetch()['subject_id'];
+    // }
 
 
-    public function insert(
+    public function add(
         int $subjectId,
         string $notionName,
         string $lesson,

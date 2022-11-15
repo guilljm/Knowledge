@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Model\ExerciseManager;
 use App\Model\SubjectManager;
-use App\Model\ThemeManager;
 use App\Model\NotionManager;
 
 class NotionController extends AbstractController
@@ -26,7 +25,7 @@ class NotionController extends AbstractController
 
         //Récuperer l'id du sujet de la notion
         $notionManager = new NotionManager();
-        $subjectId = $notionManager->getSubjectId((int)$notionId);
+        $subjectId = $notionManager->selectOneById((int)$notionId)['subject_id'];
 
         //récuperer toutes les notions du sujet
         $notions = $notionManager->selectAllBySubject($subjectId);
@@ -63,7 +62,7 @@ class NotionController extends AbstractController
         }
 
         $notionManager = new NotionManager();
-        $subjectId = $notionManager->getSubjectId((int)$notionId);
+        $subjectId = $notionManager->selectOneById((int)$notionId)['subject_id'];
 
         $notionManager->delete((int)$notionId);
 
@@ -119,7 +118,7 @@ class NotionController extends AbstractController
             $sample = $_POST['sample'];
 
             $notionManager = new NotionManager();
-            $notionManager->insert((int)$subjectId, $notionName, $lesson, $sample, $fileNameImg);
+            $notionManager->add((int)$subjectId, $notionName, $lesson, $sample, $fileNameImg);
             header("Location: /subject/show?id=" . $subjectId);
 
             return "";
@@ -136,7 +135,6 @@ class NotionController extends AbstractController
 
     public function update(string $notionId): string
     {
-
         if (!is_numeric($notionId)) {
             header("Location: /");
         }
@@ -146,7 +144,7 @@ class NotionController extends AbstractController
         }
 
         $notionManager = new NotionManager();
-        $subjectId = $notionManager->getSubjectId((int)$notionId);
+        $subjectId = $notionManager->selectOneById((int)$notionId)['subject_id'];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST['button'])) {

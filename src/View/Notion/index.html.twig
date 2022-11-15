@@ -19,7 +19,9 @@
 
 		{% include 'Notion/notionlist.html.twig' %}
 
-		{% include 'Notion/notion.html.twig' %}
+		{% if notion is defined %}
+			{% include 'Notion/notion.html.twig' %}
+		{% endif %}
 
 
 	</div>
