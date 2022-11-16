@@ -18,9 +18,15 @@
         height: 60px;
     }
 
-    header img {
+    .logo {
         height: 60px;
         width: 80px;
+    }
+
+
+    .list-group-item:hover {
+        color: var(--color-green);
+        background-color: var(--color-mauve);
     }
 
     .body-h {
@@ -32,11 +38,11 @@
     }
 
     .text-color-green {
-        color: var(--color-green) !important;
+        color: var(--color-green);
     }
 
     .text-color-clair {
-        color: var(--color-mauve) !important;
+        color: var(--color-mauve);
     }
 
     .text-color-white {
@@ -44,15 +50,15 @@
     }
 
     .bg-clair {
-        background-color: var(--color-mauve) !important;
+        background-color: var(--color-mauve);
 
     }
 
     .bg-green {
-        background-color: var(--color-green) !important;
+        background-color: var(--color-green);
     }
 
 
     .bg-light-grey {
-        background-color: lightgrey !important;
+        background-color: lightgrey;
     }
