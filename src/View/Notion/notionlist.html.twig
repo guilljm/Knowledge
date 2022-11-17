@@ -1,7 +1,7 @@
 <div class="body-h aside-w bg-clair position-fixed">
 
 	{% for subject in subjects %}
-		{% if (subject.id == idsubject) %}
+		{% if (subject.id == subjectId) %}
 			<p class="mt-3 fs-5 text-center text-color-green">
 				<strong>{{ subjectname }}</strong>
 			</p>
@@ -12,10 +12,10 @@
 	<div class="row me-0 mt-1 list-group">
 		{% set first = 1 %}
 
-		{% if idsubject is defined %}
+		{% if subjectId is defined %}
 			<div class="d-flex align-items-center justify-content-between list-group-item border-0 bg-green list-group-item-action active">
 				<p class="h5 mt-1">Notions</p>
-				<a href="/notion/add?idsubject={{ idsubject }}">📝</a>
+				<a href="/notion/add?subjectId={{ subjectId }}">📝</a>
 			</div>
 		{% endif %}
 

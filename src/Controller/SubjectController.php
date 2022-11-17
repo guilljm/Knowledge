@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Model\NotionManager;
 use App\Model\SubjectManager;
-use App\Model\ThemeManager;
+
 
 class SubjectController extends AbstractController
 {
@@ -21,7 +21,6 @@ class SubjectController extends AbstractController
 
         //Récuperer tous les sujets du thème
         $subjectManager = new SubjectManager();
-        // $subjects = $subjectManager->selectAllByTheme((int)$theme['id']);
         $subjects = $subjectManager->selectAllByTheme((int)$_SESSION['theme_id']);
         $subject = $subjectManager->selectOneById($subjectId);
 
@@ -36,7 +35,7 @@ class SubjectController extends AbstractController
                 'subjects' => $subjects,
                 'notions' => $notions,
                 'subjectname' => $subject['name'],
-                'idsubject' => $subjectId
+                'subjectId' => $subjectId
             ]
         );
     }
@@ -56,7 +55,6 @@ class SubjectController extends AbstractController
                     return "";
                 }
             }
-
 
             $name = $_POST['name'];
 

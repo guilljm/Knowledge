@@ -20,35 +20,46 @@ class ExerciseController extends AbstractController
         if (!isset($_SESSION['theme_id']) || !isset($_SESSION['theme_name'])) {
             return "Session variables undefined";
         }
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $notionManager = new NotionManager();
             $subjectId = $notionManager->selectOneById((int)$notionId)['subject_id'];
 
 
-            if (isset($_POST['button'])) {
-                if ($_POST['button'] == "Annuler") {
+            // if (isset($_POST['button'])) {
+            //     if ($_POST['button'] == "Annuler") {
 
-                    header("Location: /subject/show?id=" . $subjectId);
-                    return "";
+            //         header("Location: /subject/show?id=" . $subjectId);
+            //         return "";
+            //     }
+            // }
+            if (isset($_POST['button']) && $_POST['button'] == "Valider") {
+
+                $name = trim($_POST['name']);
+                $url = trim($_POST['url']);
+
+                if ($name == "") {
+                    $NameErrors[] = "Veuillez saisir le champ";
                 }
+
+                if ($url == "") {
+                    $UrlErrors[] = "Veuillez saisir le champ";
+                }
+
+                $exerciseManager = new ExerciseManager();
+                $exerciseManager->add($notionId, $name, $url);
+
+                header("Location: /subject/show?id=" . $subjectId);
             }
-
-
-            $name = $_POST['name'];
-            $url = $_POST['url'];
-
-            $exerciseManager = new ExerciseManager();
-            $exerciseManager->add($notionId, $name, $url);
-
-            header("Location: /subject/show?id=" . $subjectId);
-
-            return "";
         }
 
         return $this->twig->render(
             'Exercise/add.html.twig',
-            ['titleForm' => 'Ajouter un nouvel exercice']
+            [
+                'headerTitle' => $_SESSION['theme_name'],
+                'titleForm' => 'Ajouter un nouvel exercice'
+            ]
         );
     }
 

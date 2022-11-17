@@ -8,7 +8,7 @@
 
 				<li class="col-2 me-3 nav-item">
 
-					{% if idsubject == subjects[i].id %}
+					{% if subjectId == subjects[i].id %}
 
 						<a class="nav-link hover fs-6 bg-clair text-color-green" href="/subject/show?id={{ subjects[i].id }}">{{ subjects[i].name }}</a>
 					{% else %}
@@ -42,10 +42,10 @@
 			{% endif %}
 
 
-			{% if (idsubject is defined) %}
+			{% if (subjectId is defined) %}
 				<a class="" href="/subject/add">📝</a>
-				<a class="ms-3" href="/subject/edit?id={{idsubject}}">🛠</a>
-				<a class="ms-3 me-3 " href="/subject/delete?id={{idsubject}}">🧻</a>
+				<a class="ms-3" href="/subject/edit?id={{subjectId}}">🛠</a>
+				<a class="ms-3 me-3 " href="/subject/delete?id={{subjectId}}">🧻</a>
 			{% else %}
 				<a class="me-5" href="/subject/add">📝</a>
 			{% endif %}

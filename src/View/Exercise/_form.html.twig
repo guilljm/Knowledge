@@ -1,6 +1,17 @@
 <form method="post">
 	<div class="container-fluid body-h bg-clair">
 
+		{% if validationMessage != "" %}
+			<div class="alert alert-dismissible alert-success">
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				<strong>{{validationMessage}}</strong>
+			</div>
+		{% endif %}
+
+
+		<div class="row d-flex justify-content-center">
+			<a class="text-end" href="/subject/show?id={{subjectId}}">retour à la page précédente</a>
+		</div>
 
 		<div class="row d-flex justify-content-center align-items-center h-100">
 
@@ -17,6 +28,15 @@
 					</div>
 				</div>
 
+				{% if NameErrors is not empty %}
+					<div class="alert alert-dismissible alert-primary">
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+						{% for error in NameErrors %}
+							<strong>{{error}}</strong>
+						{% endfor %}
+					</div>
+				{% endif %}
+
 				<div class="row h-25 ms-5 pb-5 pe-5 justify-content-center align-items-center">
 					<div class="input-group input-group-lg">
 						<span class="col-4 input-group-text fs-4 text-color-clair bg-green">
@@ -26,8 +46,19 @@
 					</div>
 				</div>
 
-				<div class=" row d-flex mt-5 mb-0 justify-content-around">
-					<button type="submit" class="w-25 btn btn-lg btn-primary" value="Annuler" name="button">Annuler</button>
+
+				{% if UrlErrors is not empty %}
+					<div class="alert alert-dismissible alert-primary">
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+						{% for error in UrlErrors %}
+							<strong>{{error}}</strong>
+						{% endfor %}
+					</div>
+				{% endif %}
+
+				<div
+					class=" row d-flex mt-5 mb-0 justify-content-around">
+					{# <button type="submit" class="w-25 btn btn-lg btn-primary" value="Annuler" name="button">Annuler</button> #}
 					<button type="submit" class="w-25 btn btn-lg btn-primary" value="Valider" name="button">Valider</button>
 
 				</div>

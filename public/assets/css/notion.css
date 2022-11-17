@@ -8,21 +8,21 @@
     height: 40px;
 }
 
-img {
+/* img {
     height: 300px;
+    width: 300px;
+} */
+
+.aside-w {
     width: 300px;
 }
 
-.aside-w {
-    width: 300px !important;
-}
-
 .body-margin {
-    margin-left: 300px !important;
+    margin-left: 300px;
 }
 
 .lecon-exemples-card {
-    height: 450px !important;
+    height: 450px;
 }
 
 .exercices-card {
@@ -40,7 +40,7 @@ img {
 
 a:hover,
 .hover:hover {
-    color: rgb(172, 172, 235) !important;
+    color: rgb(172, 172, 235);
 }
 
 .dropdown-menu {

@@ -48,7 +48,7 @@ class NotionController extends AbstractController
                 'notions' => $notions,
                 'notion' => $notionManager->selectOneById((int)$notionId),
                 'exercises' => $exercises,
-                'idsubject' => $subjectId
+                'subjectId' => $subjectId
             ]
         );
     }
@@ -81,55 +81,97 @@ class NotionController extends AbstractController
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (isset($_POST['button'])) {
-                if ($_POST['button'] == "Annuler") {
 
-                    header("Location: /subject/show?id=" . $subjectId);
-                    return "";
+            if (isset($_POST['button']) && $_POST['button'] == "Valider") {
+
+                $fileNameImg = "";
+
+                //button Valider
+                if (isset($_FILES['filename']) && $_FILES['filename']['name'] != "") {
+                    $uploadDir = '../upload/';
+                    $fileNameImg = $uploadDir . basename($_FILES['filename']['name']);
+                    $extension = pathinfo($_FILES['filename']['name'], PATHINFO_EXTENSION);
+                    $authorizedExtensions = ['jpg', 'jpeg', 'png'];
+                    $maxFileSize = 1000000;
+                    $errors = [];
+
+                    if ((!in_array($extension, $authorizedExtensions))) {
+                        $errors[] = 'Veuillez sélectionner une image de type Jpg ou Jpeg ou Png !';
+                    }
+
+                    if (file_exists($_FILES['filename']['tmp_name']) && filesize($_FILES['filename']['tmp_name']) > $maxFileSize) {
+                        $errors[] = "Votre fichier doit faire moins de 1M !";
+                    }
+
+                    if (!empty($errors)) {
+                        return $this->twig->render(
+                            'Notion/add.html.twig',
+                            [
+                                'headerTitle' => $_SESSION['theme_name'],
+                                'titleForm' => 'Ajouter une nouvelle notion',
+                                'subjectId' => $subjectId,
+                                'FileErrors' => $errors
+                            ]
+                        );
+                    }
                 }
+
+                $notionName = trim($_POST['notion']);
+
+                if ($notionName == "") {
+                    $errors[] = "Veuillez saisir le champ";
+
+                    return $this->twig->render(
+                        'Notion/add.html.twig',
+                        [
+                            'headerTitle' => $_SESSION['theme_name'],
+                            'titleForm' => 'Ajouter une nouvelle notion',
+                            'subjectId' => $subjectId,
+                            'NameErrors' => $errors
+                        ]
+                    );
+                }
+
+                $lesson = trim($_POST['lesson']);
+                $sample = trim($_POST['sample']);
+
+                $notionManager = new NotionManager();
+
+                if (($notionManager->getName($notionName, $subjectId))) {
+                    $errors[] = "Notion déjà existante";
+
+                    return $this->twig->render(
+                        'Notion/add.html.twig',
+                        [
+                            'headerTitle' => $_SESSION['theme_name'],
+                            'titleForm' => 'Ajouter une nouvelle notion',
+                            'subjectId' => $subjectId,
+                            'NameErrors' => $errors
+                        ]
+                    );
+                }
+
+                $newNotionId = $notionManager->add((int)$subjectId, $notionName, $lesson, $sample, $fileNameImg);
+
+                return $this->twig->render(
+                    'Notion/add.html.twig',
+                    [
+                        'headerTitle' => $_SESSION['theme_name'],
+                        'titleForm' => 'Ajouter une nouvelle notion',
+                        'validationMessage' => 'Bravo ! la nouvelle notion ' . $notionName .  ' a bien été ajoutée.',
+                        'notionId' => $newNotionId,
+                        'subjectId' => $subjectId
+                    ]
+                );
             }
-
-            $fileNameImg = "";
-
-            //button Valider
-            if (isset($_FILES['filename']) && $_FILES['filename']['name'] != "") {
-                $uploadDir = '../upload/';
-                $fileNameImg = $uploadDir . basename($_FILES['filename']['name']);
-                $extension = pathinfo($_FILES['filename']['name'], PATHINFO_EXTENSION);
-                $authorizedExtensions = ['jpg', 'jpeg', 'png'];
-                $maxFileSize = 1000000;
-                $errors = [];
-
-                if ((!in_array($extension, $authorizedExtensions))) {
-                    $errors[] = 'Veuillez sélectionner une image de type Jpg ou Jpeg ou Png !';
-                }
-
-                if (file_exists($_FILES['filename']['tmp_name']) && filesize($_FILES['filename']['tmp_name']) > $maxFileSize) {
-                    $errors[] = "Votre fichier doit faire moins de 1M !";
-                }
-
-                if (!empty($errors)) {
-                    return $errors[0];
-                }
-            }
-
-            $notionName = $_POST['notion'];
-            $lesson = $_POST['lesson'];
-            $sample = $_POST['sample'];
-
-            $notionManager = new NotionManager();
-            $newNotionId = $notionManager->add((int)$subjectId, $notionName, $lesson, $sample, $fileNameImg);
-
-            header("Location: /exercise/add?idnotion=" . $newNotionId);
-
-            return "";
         }
 
         return $this->twig->render(
             'Notion/add.html.twig',
             [
                 'headerTitle' => $_SESSION['theme_name'],
-                'titleForm' => 'Ajouter une nouvelle notion'
+                'titleForm' => 'Ajouter une nouvelle notion',
+                'subjectId' => $subjectId
             ]
         );
     }
@@ -148,6 +190,8 @@ class NotionController extends AbstractController
         $notionManager = new NotionManager();
         $subjectId = $notionManager->selectOneById((int)$notionId)['subject_id'];
 
+        $validationMessage = "";
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST['button'])) {
                 if ($_POST['button'] == "Annuler") {
@@ -156,9 +200,9 @@ class NotionController extends AbstractController
                 }
 
                 if ($_POST['button'] == "Valider") {
-                    $notionName = $_POST['notion'];
-                    $lesson = $_POST['lesson'];
-                    $sample = $_POST['sample'];
+                    $notionName = trim($_POST['notion']);
+                    $lesson = trim($_POST['lesson']);
+                    $sample = trim($_POST['sample']);
                     $fileNameImg = "";
 
                     // var_dump($_FILES);
@@ -180,8 +224,28 @@ class NotionController extends AbstractController
                         }
 
                         if (!empty($errors)) {
-                            return $errors[0];
+                            return $this->twig->render(
+                                'Notion/add.html.twig',
+                                [
+                                    'headerTitle' => $_SESSION['theme_name'],
+                                    'titleForm' => 'Ajouter une nouvelle notion',
+                                    'FileErrors' => $errors
+                                ]
+                            );
                         }
+                    }
+
+                    if ($notionName == "") {
+                        $errors[] = "Veuillez compléter le champ";
+
+                        return $this->twig->render(
+                            'Notion/add.html.twig',
+                            [
+                                'headerTitle' => $_SESSION['theme_name'],
+                                'titleForm' => 'Ajouter une nouvelle notion',
+                                'NameErrors' => $errors
+                            ]
+                        );
                     }
 
                     $notionManager->update(
@@ -193,11 +257,10 @@ class NotionController extends AbstractController
                         $fileNameImg
                     );
 
-                    header("Location: /subject/show?id=" . $subjectId);
+                    $validationMessage = 'Bravo ! la notion ' . $notionName .  ' a bien été modifiée.';
                 }
             }
         }
-
 
         $notion = $notionManager->selectOneById((int) $notionId);
         $notionName = $notion['name'];
@@ -211,7 +274,10 @@ class NotionController extends AbstractController
                 'notionName' => $notionName,
                 'lesson' => $lesson,
                 'sample' => $sample,
-                'titleForm' => 'Modifier cette notion'
+                'titleForm' => 'Modifier cette notion',
+                'validationMessage' => $validationMessage,
+                'notionId' => $notionId,
+                'subjectId' => $subjectId
             ]
         );
     }
