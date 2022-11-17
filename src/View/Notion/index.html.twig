@@ -17,14 +17,14 @@
 		class="container-fluid p-0 overflow-hidden">
 
 		{# {% if notions is not empty %} #}
-		{% include 'Notion/notionlist.html.twig' %}
+		{% include 'Notion/notion_list.html.twig' %}
 		{# {% endif %} #}
 
 
 		{% if notion %}
 			{% include 'Notion/notion.html.twig' %}
 		{% else %}
-			{% include 'Notion/notionlogo.html.twig' %}
+			{% include 'Notion/notion_logo.html.twig' %}
 		{% endif %}
 
 	</div>
