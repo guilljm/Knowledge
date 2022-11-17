@@ -8,11 +8,6 @@
     height: 40px;
 }
 
-/* img {
-    height: 300px;
-    width: 300px;
-} */
-
 .aside-w {
     width: 300px;
 }
@@ -22,12 +17,13 @@
 }
 
 .lecon-exemples-card {
-    height: 450px;
+    height: 600px;
 }
 
+/* 
 .exercices-card {
-    /* height: 200px !important; */
-}
+    height: 450px;
+} */
 
 .textarea-form {
     border: none;

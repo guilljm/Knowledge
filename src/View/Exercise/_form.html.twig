@@ -28,10 +28,10 @@
 					</div>
 				</div>
 
-				{% if NameErrors is not empty %}
+				{% if nameErrors is not empty %}
 					<div class="alert alert-dismissible alert-primary">
 						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-						{% for error in NameErrors %}
+						{% for error in nameErrors %}
 							<strong>{{error}}</strong>
 						{% endfor %}
 					</div>
@@ -47,22 +47,22 @@
 				</div>
 
 
-				{% if UrlErrors is not empty %}
+				{% if urlErrors is not empty %}
 					<div class="alert alert-dismissible alert-primary">
 						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-						{% for error in UrlErrors %}
+						{% for error in urlErrors %}
 							<strong>{{error}}</strong>
 						{% endfor %}
 					</div>
 				{% endif %}
 
-				<div
-					class=" row d-flex mt-5 mb-0 justify-content-around">
-					{# <button type="submit" class="w-25 btn btn-lg btn-primary" value="Annuler" name="button">Annuler</button> #}
-					<button type="submit" class="w-25 btn btn-lg btn-primary" value="Valider" name="button">Valider</button>
-
+				<div class="row d-flex mt-5 mb-5 justify-content-center">
+					<div
+						class="col-8">
+						{# <button type="submit" class="mb-5 w-25 btn btn-lg btn-primary" value="Annuler" name="button">Annuler</button> #}
+						<button type="submit" class="mb-5 w-100 btn btn-lg btn-primary" value="Valider" name="button">Valider</button>
+					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>

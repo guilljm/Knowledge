@@ -19,7 +19,6 @@ class NotionManager extends AbstractManager
         return $statement->fetchAll();
     }
 
-
     public function getName(string $name, int $subjectId): array|false
     {
         $statement = $this->pdo->prepare("SELECT * FROM " . self::TABLE . " WHERE name = :name and subject_id = :id");
@@ -29,7 +28,6 @@ class NotionManager extends AbstractManager
 
         return $statement->fetch();
     }
-
 
     public function add(
         int $subjectId,

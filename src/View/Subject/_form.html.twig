@@ -1,5 +1,17 @@
 <form method="post">
+
 	<div class="container-fluid body-h bg-clair">
+
+		{% if validationMessage != "" %}
+			<div class="alert alert-dismissible alert-success">
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				<strong>{{validationMessage}}</strong>
+			</div>
+		{% endif %}
+
+		<div class="row d-flex justify-content-center">
+			<a class="text-end" href="/theme/show?id={{themeId}}">retour à la page précédente</a>
+		</div>
 
 		<div class="row d-flex justify-content-center align-items-center h-100">
 
@@ -13,14 +25,24 @@
 							Nom du sujet
 						</span>
 						<input type="text" class="form-control" name="name" placeholder="nom du sujet" value="{{ name }}">
-
 					</div>
 				</div>
 
-				<div class=" row d-flex mt-5 mb-0 justify-content-around">
-					<button type="submit" class="mt-5 w-25 btn btn-lg btn-primary" value="Annuler" name="button">Annuler</button>
-					<button type="submit" class="mt-5 w-25 btn btn-lg btn-primary" value="Valider" name="button">Valider</button>
+				{% if nameErrors is not empty %}
+					<div class="alert alert-dismissible alert-primary">
+						<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+						{% for error in nameErrors %}
+							<strong>{{error}}</strong>
+						{% endfor %}
+					</div>
+				{% endif %}
 
+				<div class="row d-flex mt-5 mb-5 justify-content-center">
+					<div
+						class="col-8">
+						{# <button type="submit" class="mb-5 w-25 btn btn-lg btn-primary" value="Annuler" name="button">Annuler</button> #}
+						<button type="submit" class="mb-5 w-100 btn btn-lg btn-primary" value="Valider" name="button">Valider</button>
+					</div>
 				</div>
 
 			</div>

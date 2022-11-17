@@ -1,13 +1,10 @@
 {% extends 'Layout/index.html.twig' %}
 
-{% block title %}
-	Accueil - Page theme
-{% endblock %}
+{% block title %}Accueil - Page theme{% endblock %}
 
 {% block css %}
 	<link rel="stylesheet" href="/assets/css/notion.css">
 {% endblock %}
-
 
 {% block navbar %}
 	{% include 'Notion/subjectmenu.html.twig' %}
@@ -15,8 +12,7 @@
 
 {% block content %}
 
-	<div
-		class="container-fluid p-0 overflow-hidden">
+	<div class="container-fluid p-0 overflow-hidden">
 
 		{# {% if notions is not empty %} #}
 		{% include 'Notion/notionlist.html.twig' %}
@@ -28,8 +24,6 @@
 			{% include 'Notion/notionlogo.html.twig' %}
 		{% endif %}
 
-
 	</div>
-
 
 {% endblock %}

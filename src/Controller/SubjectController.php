@@ -46,31 +46,57 @@ class SubjectController extends AbstractController
         if (!isset($_SESSION['theme_id']) || !isset($_SESSION['theme_name'])) {
             return "Session variables undefined";
         }
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            if (isset($_POST['button'])) {
-                if ($_POST['button'] == "Annuler") {
+            if (isset($_POST['button']) && $_POST['button'] == "Valider") {
 
-                    header("Location: /theme/show?id=" . $_SESSION['theme_id']);
-                    return "";
+                $name = trim($_POST['name']);
+
+                if ($name == "") {
+                    $nameErrors[] = "Veuillez saisir le champ";
                 }
+
+                $subjectManager = new SubjectManager();
+                if (($subjectManager->getName($name, (int)$_SESSION['theme_id']))) {
+                    $nameErrors[] = "Notion déjà existante";
+                }
+
+                if (!empty($nameErrors)) {
+
+                    return $this->twig->render(
+                        'Subject/add.html.twig',
+                        [
+                            'headerTitle' => $_SESSION['theme_name'],
+                            'titleForm' => 'Ajouter un nouveau sujet',
+                            'nameErrors' => $nameErrors,
+                            'themeId' => $_SESSION['theme_id']
+                        ]
+                    );
+                }
+
+                $subjectManager->add((int)$_SESSION['theme_id'], $name);
+
+                return $this->twig->render(
+                    'Subject/add.html.twig',
+                    [
+                        'headerTitle' => $_SESSION['theme_name'],
+                        'titleForm' => 'Ajouter un nouveau sujet',
+                        'validationMessage' => 'Bravo ! le nouveau sujet ' . $name .  ' a bien été ajoutée.',
+                        'themeId' => $_SESSION['theme_id']
+                    ]
+                );
+
+                // header("Location: /theme/show?id=" . $_SESSION['theme_id']);
             }
-
-            $name = $_POST['name'];
-
-            $subjectManager = new SubjectManager();
-            $subjectManager->add((int)$_SESSION['theme_id'], $name);
-
-            header("Location: /theme/show?id=" . $_SESSION['theme_id']);
-
-            return "";
         }
 
         return $this->twig->render(
             'Subject/add.html.twig',
             [
                 'headerTitle' => $_SESSION['theme_name'],
-                'titleForm' => 'Ajouter un nouveau sujet'
+                'titleForm' => 'Ajouter un nouveau sujet',
+                'themeId' => $_SESSION['theme_id']
             ]
         );
     }
@@ -88,30 +114,47 @@ class SubjectController extends AbstractController
         $subjectManager = new SubjectManager();
         $subject = $subjectManager->selectOneById($subjectId);
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['button']) && $_POST['button'] == "Valider") {
 
-            if (isset($_POST['button'])) {
-                if ($_POST['button'] == "Annuler") {
+            // header("Location: /theme/show?id=" . $_SESSION['theme_id']);
 
-                    header("Location: /theme/show?id=" . $_SESSION['theme_id']);
-                    return "";
-                }
+            $name = trim($_POST['name']);
 
-                if ($_POST['button'] == "Valider") {
-                    $subjectManager->update((int)$subjectId, $_POST['name']);
+            if ($name == "") {
+                $nameErrors[] = "Veuillez saisir le champ";
 
-                    header("Location: /theme/show?id=" . $_SESSION['theme_id']);
-                }
+                return $this->twig->render(
+                    'Subject/edit.html.twig',
+                    [
+                        'headerTitle' => $_SESSION['theme_name'],
+                        'titleForm' => 'Modifier ce sujet',
+                        'nameErrors' => $nameErrors,
+                        'themeId' => $_SESSION['theme_id']
+                    ]
+                );
             }
-        }
 
+            $subjectManager->update((int)$subjectId, $_POST['name']);
+
+            return $this->twig->render(
+                'Subject/add.html.twig',
+                [
+                    'headerTitle' => $_SESSION['theme_name'],
+                    'titleForm' => 'Modifier ce sujet',
+                    'name' => $subject['name'],
+                    'validationMessage' => 'Bravo ! le nouveau sujet ' . $name .  ' a bien été modifié.',
+                    'themeId' => $_SESSION['theme_id']
+                ]
+            );
+        }
 
         return $this->twig->render(
             'Subject/edit.html.twig',
             [
                 'headerTitle' => $_SESSION['theme_name'],
                 'titleForm' => 'Modifier ce sujet',
-                'name' => $subject['name']
+                'name' => $subject['name'],
+                'themeId' => $_SESSION['theme_id']
             ]
         );
     }

@@ -110,7 +110,7 @@ class NotionController extends AbstractController
                                 'headerTitle' => $_SESSION['theme_name'],
                                 'titleForm' => 'Ajouter une nouvelle notion',
                                 'subjectId' => $subjectId,
-                                'FileErrors' => $errors
+                                'fileErrors' => $errors
                             ]
                         );
                     }
@@ -127,7 +127,7 @@ class NotionController extends AbstractController
                             'headerTitle' => $_SESSION['theme_name'],
                             'titleForm' => 'Ajouter une nouvelle notion',
                             'subjectId' => $subjectId,
-                            'NameErrors' => $errors
+                            'nameErrors' => $errors
                         ]
                     );
                 }
@@ -146,7 +146,7 @@ class NotionController extends AbstractController
                             'headerTitle' => $_SESSION['theme_name'],
                             'titleForm' => 'Ajouter une nouvelle notion',
                             'subjectId' => $subjectId,
-                            'NameErrors' => $errors
+                            'nameErrors' => $errors
                         ]
                     );
                 }
@@ -229,7 +229,7 @@ class NotionController extends AbstractController
                                 [
                                     'headerTitle' => $_SESSION['theme_name'],
                                     'titleForm' => 'Ajouter une nouvelle notion',
-                                    'FileErrors' => $errors
+                                    'fileErrors' => $errors
                                 ]
                             );
                         }
@@ -243,7 +243,7 @@ class NotionController extends AbstractController
                             [
                                 'headerTitle' => $_SESSION['theme_name'],
                                 'titleForm' => 'Ajouter une nouvelle notion',
-                                'NameErrors' => $errors
+                                'nameErrors' => $errors
                             ]
                         );
                     }
