@@ -28,6 +28,13 @@ class SubjectController extends AbstractController
         $notionManager = new NotionManager();
         $notions = $notionManager->selectAllBySubject((int)$subjectId);
 
+        if (isset($_POST['id']) && isset($_POST['delete'])) {
+            // var_dump($_POST);
+            // exit();
+            $subjectManager->delete((int)$subjectId);
+            header("Location: /theme/show?id=" . $_SESSION['theme_id']);
+        }
+
         return $this->twig->render(
             'Notion/index.html.twig',
             [
@@ -42,7 +49,6 @@ class SubjectController extends AbstractController
 
     public function add(): string
     {
-
         if (!isset($_SESSION['theme_id']) || !isset($_SESSION['theme_name'])) {
             return "Session variables undefined";
         }
@@ -63,7 +69,6 @@ class SubjectController extends AbstractController
                 }
 
                 if (!empty($nameErrors)) {
-
                     return $this->twig->render(
                         'Subject/add.html.twig',
                         [
@@ -75,19 +80,21 @@ class SubjectController extends AbstractController
                     );
                 }
 
-                $subjectManager->add((int)$_SESSION['theme_id'], $name);
+                $newSubjectId = $subjectManager->add((int)$_SESSION['theme_id'], $name);
 
-                return $this->twig->render(
-                    'Subject/add.html.twig',
-                    [
-                        'headerTitle' => $_SESSION['theme_name'],
-                        'titleForm' => 'Ajouter un nouveau sujet',
-                        'validationMessage' => 'Bravo ! le nouveau sujet ' . $name .  ' a bien été ajoutée.',
-                        'themeId' => $_SESSION['theme_id']
-                    ]
-                );
+                // return $this->twig->render(
+                //     'Subject/add.html.twig',
+                //     [
+                //         'headerTitle' => $_SESSION['theme_name'],
+                //         'titleForm' => 'Ajouter un nouveau sujet',
+                //         // 'validationMessage' => 'Bravo ! le nouveau sujet ' . $name .  ' a bien été ajoutée.',
+                //         'subjectId' => $newSubjectId,
+                //         'themeId' => $_SESSION['theme_id']
+                //     ]
+                // );
 
-                // header("Location: /theme/show?id=" . $_SESSION['theme_id']);
+                header("Location: /exercise/add?notionid=" . $newSubjectId);
+                return "";
             }
         }
 
@@ -129,23 +136,26 @@ class SubjectController extends AbstractController
                         'headerTitle' => $_SESSION['theme_name'],
                         'titleForm' => 'Modifier ce sujet',
                         'nameErrors' => $nameErrors,
-                        'themeId' => $_SESSION['theme_id']
+                        // 'themeId' => $_SESSION['theme_id'],
+                        'subjectId' => $subjectId
                     ]
                 );
             }
 
             $subjectManager->update((int)$subjectId, $_POST['name']);
 
-            return $this->twig->render(
-                'Subject/add.html.twig',
-                [
-                    'headerTitle' => $_SESSION['theme_name'],
-                    'titleForm' => 'Modifier ce sujet',
-                    'name' => $subject['name'],
-                    'validationMessage' => 'Bravo ! le nouveau sujet ' . $name .  ' a bien été modifié.',
-                    'themeId' => $_SESSION['theme_id']
-                ]
-            );
+            header("Location: /subject/show?id=" . $subjectId);
+
+            // return $this->twig->render(
+            //     'Subject/add.html.twig',
+            //     [
+            //         'headerTitle' => $_SESSION['theme_name'],
+            //         'titleForm' => 'Modifier ce sujet',
+            //         'name' => $subject['name'],
+            //         'validationMessage' => 'Bravo ! le nouveau sujet ' . $name .  ' a bien été modifié.',
+            //         'themeId' => $_SESSION['theme_id']
+            //     ]
+            // );
         }
 
         return $this->twig->render(
@@ -154,28 +164,43 @@ class SubjectController extends AbstractController
                 'headerTitle' => $_SESSION['theme_name'],
                 'titleForm' => 'Modifier ce sujet',
                 'name' => $subject['name'],
-                'themeId' => $_SESSION['theme_id']
+                // 'themeId' => $_SESSION['theme_id']
+                'subjectId' => $subjectId
             ]
         );
     }
 
-    public function delete(string $subjectId): string
-    {
+    //     public function delete(string $subjectId): string
+    //     {
+    //         if (!is_numeric($subjectId)) {
+    //             header("Location: /");
+    //         }
 
-        if (!is_numeric($subjectId)) {
-            header("Location: /");
-        }
+    //         if (!isset($_SESSION['theme_id']) || !isset($_SESSION['theme_name'])) {
+    //             return "Session variables undefined";
+    //         }
 
+    //         $subjectManager = new SubjectManager();
+    //         $subject = $subjectManager->selectOneById($subjectId);
 
-        if (!isset($_SESSION['theme_id']) || !isset($_SESSION['theme_name'])) {
-            return "Session variables undefined";
-        }
+    //         if (!$subject) {
+    //             header("Location: /theme/show?id=" . $_SESSION['theme_id']);
+    //             return "";
+    //         }
 
-        $subjectManager = new SubjectManager();
+    //         $subjectManager->delete((int)$subjectId);
 
-        $subjectManager->delete((int)$subjectId);
+    //         $subjects = $subjectManager->selectAllByTheme((int)$_SESSION['theme_id']);
 
-        header("Location: /theme/show?id=" . $_SESSION['theme_id']);
-        return "";
-    }
+    //         return $this->twig->render(
+    //             'Notion/index.html.twig',
+    //             [
+    //                 'headerTitle' => $_SESSION['theme_name'],
+    //                 'subjects' => $subjects,
+    //                 'validationMessage' => 'Le sujet ' . $subject['name'] . ' a bien été détruit'
+    //             ]
+    //         );
+
+    //         // header("Location: /theme/show?id=" . $_SESSION['theme_id']);
+    //     }
 }

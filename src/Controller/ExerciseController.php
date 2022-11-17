@@ -25,7 +25,13 @@ class ExerciseController extends AbstractController
         }
 
         $this->notionManager = new NotionManager();
-        $subjectId = $this->notionManager->selectOneById((int)$notionId)['subject_id'];
+        $notion = $this->notionManager->selectOneById($notionId);
+
+        if (!$notion) {
+            header("Location: /");
+        }
+
+        // $subjectId = $this->notionManager->selectOneById((int)$notionId)['subject_id'];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -50,8 +56,8 @@ class ExerciseController extends AbstractController
                         'Exercise/add.html.twig',
                         [
                             'headerTitle' => $_SESSION['theme_name'],
-                            'titleForm' => 'Ajouter un nouvel exercice',
-                            'subjectId' => $subjectId,
+                            'titleForm' => 'Ajouter un nouvel exercice à ' . $notion['name'],
+                            'notionId' => $notionId,
                             'nameErrors' => $nameErrors,
                             'urlErrors' => $urlErrors
                         ]
@@ -61,19 +67,19 @@ class ExerciseController extends AbstractController
                 $this->exerciseManager = new ExerciseManager();
                 $this->exerciseManager->add($notionId, $name, $url);
 
-                $validationMessage = 'Bravo ! le nouvel exercise ' . $name .  ' a bien été ajouté.';
+                // $validationMessage = 'Bravo ! le nouvel exercise ' . $name .  ' a bien été ajouté.';
 
-                return $this->twig->render(
-                    'Exercise/add.html.twig',
-                    [
-                        'headerTitle' => $_SESSION['theme_name'],
-                        'titleForm' => 'Ajouter un nouvel exercice',
-                        'validationMessage' => $validationMessage,
-                        'subjectId' => $subjectId
-                    ]
-                );
+                // return $this->twig->render(
+                //     'Exercise/add.html.twig',
+                //     [
+                //         'headerTitle' => $_SESSION['theme_name'],
+                //         'titleForm' => 'Ajouter un nouvel exercice',
+                //         'validationMessage' => $validationMessage,
+                //         'subjectId' => $subjectId
+                //     ]
+                // );
 
-                // header("Location: /subject/show?id=" . $subjectId);
+                header("Location: /notion/show?id=" . $notionId);
             }
         }
 
@@ -81,15 +87,14 @@ class ExerciseController extends AbstractController
             'Exercise/add.html.twig',
             [
                 'headerTitle' => $_SESSION['theme_name'],
-                'titleForm' => 'Ajouter un nouvel exercice',
-                'subjectId' => $subjectId
+                'titleForm' => 'Ajouter un nouvel exercice à ' . $notion['name'],
+                'notionId' => $notionId
             ]
         );
     }
 
     public function edit(string $exerciseId): string
     {
-
         if (!is_numeric($exerciseId)) {
             header("Location: /");
         }
@@ -101,12 +106,19 @@ class ExerciseController extends AbstractController
         $exerciseManager = new ExerciseManager();
         $exercise = $exerciseManager->selectOneById($exerciseId);
 
-        $notionManager = new NotionManager();
-        $subjectId = $notionManager->selectOneById((int)$_SESSION['theme_id'])['subject_id'];
+        if (!$exercise) {
+            header("Location: /");
+        }
 
-        $validationMessage = "";
+        $notionManager = new NotionManager();
+        // $subjectId = $notionManager->selectOneById((int)$_SESSION['theme_id'])['subject_id'];
+        $notion = $notionManager->selectOneById($exercise['notion_id']);
+
+
+        // $validationMessage = "";
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            
             if (isset($_POST['button'])) {
 
                 if ($_POST['button'] == "Valider") {
@@ -131,8 +143,8 @@ class ExerciseController extends AbstractController
                             'Exercise/add.html.twig',
                             [
                                 'headerTitle' => $_SESSION['theme_name'],
-                                'titleForm' => 'Modifier cette exercice',
-                                'subjectId' => $subjectId,
+                                'titleForm' => 'Modifier l\'exercice de ' .  $notion['name'],
+                                'notiontId' => $notion['id'],
                                 'nameErrors' => $nameErrors,
                                 'urlErrors' => $urlErrors
                             ]
@@ -141,7 +153,9 @@ class ExerciseController extends AbstractController
 
                     $exerciseManager->update($exerciseId, $_POST['name'], $_POST['url']);
 
-                    $validationMessage = 'Bravo ! le nouvel exercise ' . $name .  ' a bien été modifié.';
+                    header("Location: /notion/show?id=" . $notion['id']);
+
+                    // $validationMessage = 'Bravo ! le nouvel exercise ' . $name .  ' a bien été modifié.';
                 }
             }
         }
@@ -151,9 +165,9 @@ class ExerciseController extends AbstractController
             [
                 'name' => $exercise['name'],
                 'url' => $exercise['url'],
-                'titleForm' => 'Modifier cette exercice',
-                'subjectId' => $subjectId,
-                'validationMessage' => $validationMessage,
+                'titleForm' => 'Modifier l\'exercice de ' . $notion['name'],
+                'notionId' => $notion['id']
+                // 'validationMessage' => $validationMessage,
             ]
         );
     }

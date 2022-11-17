@@ -1,6 +1,7 @@
 {% extends 'Layout/index.html.twig' %}
 
-{% block title %}Accueil - Page theme{% endblock %}
+{% block title %}Accueil - Page theme
+{% endblock %}
 
 {% block css %}
 	<link rel="stylesheet" href="/assets/css/notion.css">
@@ -12,11 +13,13 @@
 
 {% block content %}
 
-	<div class="container-fluid p-0 overflow-hidden">
+	<div
+		class="container-fluid p-0 overflow-hidden">
 
 		{# {% if notions is not empty %} #}
 		{% include 'Notion/notionlist.html.twig' %}
 		{# {% endif %} #}
+
 
 		{% if notion %}
 			{% include 'Notion/notion.html.twig' %}

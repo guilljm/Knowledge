@@ -12,18 +12,17 @@
     width: 300px;
 }
 
+.notion-list {
+    height: 700px;
+}
+
 .body-margin {
     margin-left: 300px;
 }
 
 .lecon-exemples-card {
-    height: 600px;
+    height: 550px;
 }
-
-/* 
-.exercices-card {
-    height: 450px;
-} */
 
 .textarea-form {
     border: none;
@@ -32,7 +31,6 @@
     box-shadow: none;
     resize: none;
 }
-
 
 a:hover,
 .hover:hover {
@@ -43,7 +41,6 @@ a:hover,
     max-height: 500px;
     overflow-y: auto;
 }
-
 
 .list-group-item a {
     text-decoration: none;

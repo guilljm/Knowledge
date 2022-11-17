@@ -12,12 +12,12 @@ return [
     'subject/show' => ['SubjectController', 'show', ['id']],
     'subject/add' => ['SubjectController', 'add'],
     'subject/edit' => ['SubjectController', 'edit', ['id']],
-    'subject/delete' => ['SubjectController', 'delete', ['id']],
+    // 'subject/delete' => ['SubjectController', 'delete', ['id']],
     'notion/show' => ['NotionController', 'show', ['id']],
-    'notion/add' => ['NotionController', 'add', ['subjectId']],
+    'notion/add' => ['NotionController', 'add', ['subjectid']],
     'notion/edit' => ['NotionController', 'edit', ['id']],
     'notion/delete' => ['NotionController', 'delete', ['id']],
-    'exercise/add' => ['ExerciseController', 'add', ['notionId']],
+    'exercise/add' => ['ExerciseController', 'add', ['notionid']],
     'exercise/edit' => ['ExerciseController', 'edit', ['id']],
     'exercise/delete' => ['ExerciseController', 'delete', ['id']]
 ];

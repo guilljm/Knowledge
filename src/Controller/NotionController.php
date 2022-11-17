@@ -39,6 +39,14 @@ class NotionController extends AbstractController
         $exerciseManager = new ExerciseManager();
         $exercises = $exerciseManager->selectAllByNotion($notionId);
 
+        if (isset($_POST['id']) && isset($_POST['delete'])) {
+            $notionManager->delete((int)$notionId);
+            header("Location: /subject/show?id=" . $subjectId);
+
+            // var_dump($_POST);
+            // exit();
+        }
+
         return $this->twig->render(
             'Notion/index.html.twig',
             [
@@ -54,20 +62,66 @@ class NotionController extends AbstractController
     }
 
 
-    public function delete(string $notionId): void
-    {
+    // public function delete(string $notionId): string
+    // {
 
-        if (!is_numeric($notionId)) {
-            header("Location: /");
-        }
+    //     if (!is_numeric($notionId)) {
+    //         header("Location: /");
+    //     }
 
-        $notionManager = new NotionManager();
-        $subjectId = $notionManager->selectOneById((int)$notionId)['subject_id'];
+    //     if (!isset($_SESSION['theme_id']) || !isset($_SESSION['theme_name'])) {
+    //         // var_dump($_SESSION);
+    //         // exit();
+    //         return "Session variables undefined";
+    //     }
 
-        $notionManager->delete((int)$notionId);
+    //     $notionManager = new NotionManager();
+    //     // $subjectId = $notionManager->selectOneById((int)$notionId)['subject_id'];
 
-        header("Location: /subject/show?id=" . $subjectId);
-    }
+    //     $notion = $notionManager->selectOneById($notionId);
+
+    //     if (!$notion) {
+
+    //         // $subjectManager = new SubjectManager();
+    //         // $subjects = $subjectManager->selectAllByTheme((int)$_SESSION['theme_id']);
+
+    //         // if ($subjects) {
+    //         //     header("Location: /subject/show?id=" . $subjects[0]['id']);
+    //         // }
+    //         header("Location: /");
+    //         return "";
+    //         // return $this->twig->render(
+    //         //     'Notion/index.html.twig',
+    //         //     [
+    //         //         'headerTitle' => $_SESSION['theme_name'],
+    //         //         'subjects' => $subjects
+    //         //     ]
+    //         // );
+    //     }
+
+    //     $subjectId = $notionManager->selectOneById((int)$notionId)['subject_id'];
+
+    //     $notionManager->delete((int)$notionId);
+
+    //     $notions = $notionManager->selectAllBySubject($subjectId);
+
+    //     $subjectManager = new SubjectManager();
+    //     $subjects = $subjectManager->selectAllByTheme((int)$_SESSION['theme_id']);
+
+    //     $subject = $subjectManager->selectOneById((int)$subjectId);
+
+    //     return $this->twig->render(
+    //         'Notion/index.html.twig',
+    //         [
+    //             'headerTitle' => $_SESSION['theme_name'],
+    //             'subjects' => $subjects,
+    //             'notions' => $notions,
+    //             'subjectname' => $subject['name'],
+    //             'subjectId' => $subjectId,
+    //             'validationMessage' => 'La notion ' . $notion['name'] . ' a bien été détruite'
+    //         ]
+    //     );
+    // }
 
     public function add(string $subjectId): string
     {
@@ -79,6 +133,9 @@ class NotionController extends AbstractController
         if (!isset($_SESSION['theme_id']) || !isset($_SESSION['theme_name'])) {
             return "Session variables undefined";
         }
+
+        $subjectManager = new SubjectManager();
+        $subject = $subjectManager->selectOneById((int)$subjectId);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -108,7 +165,7 @@ class NotionController extends AbstractController
                             'Notion/add.html.twig',
                             [
                                 'headerTitle' => $_SESSION['theme_name'],
-                                'titleForm' => 'Ajouter une nouvelle notion',
+                                'titleForm' => 'Ajouter une nouvelle notion à ' . $subject['name'],
                                 'subjectId' => $subjectId,
                                 'fileErrors' => $errors
                             ]
@@ -125,7 +182,7 @@ class NotionController extends AbstractController
                         'Notion/add.html.twig',
                         [
                             'headerTitle' => $_SESSION['theme_name'],
-                            'titleForm' => 'Ajouter une nouvelle notion',
+                            'titleForm' => 'Ajouter une nouvelle notion à ' . $subject['name'],
                             'subjectId' => $subjectId,
                             'nameErrors' => $errors
                         ]
@@ -144,7 +201,7 @@ class NotionController extends AbstractController
                         'Notion/add.html.twig',
                         [
                             'headerTitle' => $_SESSION['theme_name'],
-                            'titleForm' => 'Ajouter une nouvelle notion',
+                            'titleForm' => 'Ajouter une nouvelle notion à ' . $subject['name'],
                             'subjectId' => $subjectId,
                             'nameErrors' => $errors
                         ]
@@ -153,16 +210,19 @@ class NotionController extends AbstractController
 
                 $newNotionId = $notionManager->add((int)$subjectId, $notionName, $lesson, $sample, $fileNameImg);
 
-                return $this->twig->render(
-                    'Notion/add.html.twig',
-                    [
-                        'headerTitle' => $_SESSION['theme_name'],
-                        'titleForm' => 'Ajouter une nouvelle notion',
-                        'validationMessage' => 'Bravo ! la nouvelle notion ' . $notionName .  ' a bien été ajoutée.',
-                        'notionId' => $newNotionId,
-                        'subjectId' => $subjectId
-                    ]
-                );
+                // return $this->twig->render(
+                //     'Notion/add.html.twig',
+                //     [
+                //         'headerTitle' => $_SESSION['theme_name'],
+                //         'titleForm' => 'Ajouter une nouvelle notion',
+                //         // 'validationMessage' => 'Bravo ! la nouvelle notion ' . $notionName .  ' a bien été ajoutée.',
+                //         'notionId' => $newNotionId,
+                //         'subjectId' => $subjectId
+                //     ]
+                // );
+
+                header("Location: /exercise/add?notionid=" . $newNotionId);
+                return "";
             }
         }
 
@@ -170,12 +230,11 @@ class NotionController extends AbstractController
             'Notion/add.html.twig',
             [
                 'headerTitle' => $_SESSION['theme_name'],
-                'titleForm' => 'Ajouter une nouvelle notion',
+                'titleForm' => 'Ajouter une nouvelle notion à ' . $subject['name'],
                 'subjectId' => $subjectId
             ]
         );
     }
-
 
     public function edit(string $notionId): string
     {
@@ -188,14 +247,23 @@ class NotionController extends AbstractController
         }
 
         $notionManager = new NotionManager();
-        $subjectId = $notionManager->selectOneById((int)$notionId)['subject_id'];
+        $notion = $notionManager->selectOneById((int)$notionId);
 
-        $validationMessage = "";
+        if (!$notion) {
+            header("Location: /");
+        }
+
+        $subjectManager = new SubjectManager();
+        $subject = $subjectManager->selectOneById((int)$notion['subject_id']);
+
+        if (!$subject) {
+            header("Location: /");
+        }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST['button'])) {
                 if ($_POST['button'] == "Annuler") {
-                    header("Location: /subject/show?id=" . $subjectId);
+                    header("Location: /subject/show?id=" . $subject['id']);
                     return "";
                 }
 
@@ -228,7 +296,9 @@ class NotionController extends AbstractController
                                 'Notion/add.html.twig',
                                 [
                                     'headerTitle' => $_SESSION['theme_name'],
-                                    'titleForm' => 'Ajouter une nouvelle notion',
+                                    'titleForm' => 'Modifier la notion de ' . $subject['name'],
+                                    // 'subjectId' => $subject['id'],
+                                    'notionId' => $notionId,
                                     'fileErrors' => $errors
                                 ]
                             );
@@ -242,7 +312,8 @@ class NotionController extends AbstractController
                             'Notion/add.html.twig',
                             [
                                 'headerTitle' => $_SESSION['theme_name'],
-                                'titleForm' => 'Ajouter une nouvelle notion',
+                                'titleForm' => 'Modifier la notion de ' . $subject['name'],
+                                'notionId' => $notionId,
                                 'nameErrors' => $errors
                             ]
                         );
@@ -250,14 +321,16 @@ class NotionController extends AbstractController
 
                     $notionManager->update(
                         (int)$notionId,
-                        (int)$subjectId,
+                        (int)$subject['id'],
                         $notionName,
                         $lesson,
                         $sample,
                         $fileNameImg
                     );
 
-                    $validationMessage = 'Bravo ! la notion ' . $notionName .  ' a bien été modifiée.';
+                    // $validationMessage = 'Bravo ! la notion ' . $notionName .  ' a bien été modifiée.';
+
+                    header("Location: /notion/show?id=" . $notionId);
                 }
             }
         }
@@ -274,10 +347,10 @@ class NotionController extends AbstractController
                 'notionName' => $notionName,
                 'lesson' => $lesson,
                 'sample' => $sample,
-                'titleForm' => 'Modifier cette notion',
-                'validationMessage' => $validationMessage,
-                'notionId' => $notionId,
-                'subjectId' => $subjectId
+                'titleForm' => 'Modifier la notion de ' . $subject['name'],
+                // 'validationMessage' => $validationMessage,
+                'notionId' => $notionId
+                // 'subjectId' => $subjectId
             ]
         );
     }

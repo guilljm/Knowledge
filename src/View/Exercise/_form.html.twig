@@ -1,16 +1,16 @@
 <form method="post">
-	<div class="container-fluid body-h bg-clair">
-
-		{% if validationMessage != "" %}
-			<div class="alert alert-dismissible alert-success">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>{{validationMessage}}</strong>
-			</div>
-		{% endif %}
-
+	<div
+		class="container-fluid body-h bg-clair">
+		{# 
+						{% if validationMessage != "" %}
+							<div class="alert alert-dismissible alert-success">
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+								<strong>{{validationMessage}}</strong>
+							</div>
+						{% endif %} #}
 
 		<div class="row d-flex justify-content-center">
-			<a class="text-end" href="/subject/show?id={{subjectId}}">retour à la page précédente</a>
+			<a class="text-end" href="/notion/show?id={{notionId}}">retour à la page précédente</a>
 		</div>
 
 		<div class="row d-flex justify-content-center align-items-center h-100">
@@ -24,7 +24,7 @@
 						<span class="col-4 input-group-text fs-4 text-color-clair bg-green">
 							Nom de l'exercice
 						</span>
-						<input type="text" class="form-control" name="name" placeholder="nom exercice" value="{{ name }}">
+						<input type="text" class="form-control" name="name" value="{{ name }}">
 					</div>
 				</div>
 
@@ -42,7 +42,7 @@
 						<span class="col-4 input-group-text fs-4 text-color-clair bg-green">
 							URL
 						</span>
-						<input type="text" class="form-control" name="url" placeholder="url" value="{{ url }}">
+						<input type="text" class="form-control" name="url" value="{{ url }}">
 					</div>
 				</div>
 

@@ -1,19 +1,24 @@
 <form method="post" enctype="multipart/form-data">
-	<div class="container-fluid bg-clair">
+	<div
+		class="container-fluid bg-clair">
 
-		{% if validationMessage != "" %}
-			<div class="alert alert-dismissible alert-success">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>{{validationMessage}}</strong>
-				{% if titleForm == "Ajouter une nouvelle notion" %}
-					<strong>Vous pouvez</strong>
-					<a class="me-2" href="/exercise/add?notionId={{notionId}}">ajouter un exercice</a>
-				{% endif %}
-			</div>
-		{% endif %}
+		{# {% if validationMessage != "" %}
+							<div class="alert alert-dismissible alert-success">
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+								<strong>{{validationMessage}}</strong>
+								{% if titleForm == "Ajouter une nouvelle notion" %}
+									<strong>Vous pouvez</strong>
+									<a class="me-2" href="/exercise/add?notionId={{notionId}}">ajouter un exercice</a>
+								{% endif %}
+							</div>
+						{% endif %} #}
 
 		<div class="row d-flex justify-content-center">
-			<a class="text-end" href="/subject/show?id={{subjectId}}">retour à la page précédente</a>
+			{% if notionId is defined %}
+				<a class="text-end" href="/notion/show?id={{notionId}}">retour à la page précédente</a>
+			{% else %}
+				<a class="text-end" href="/subject/show?id={{subjectId}}">retour à la page précédente</a>
+			{% endif %}
 		</div>
 
 		<p class="pt-4 text-center h1 bg-clair">{{  titleForm }}</p>
@@ -26,7 +31,7 @@
 					<span class="col-4 input-group-text fs-4 text-color-clair bg-green">
 						Nom de la notion
 					</span>
-					<input type="text" class="form-control" name="notion" placeholder="nom notion" value="{{ notionName }}">
+					<input type="text" class="form-control" name="notion" value="{{ notionName }}">
 				</div>
 
 				{% if nameErrors is not empty %}
@@ -74,5 +79,4 @@
 		</div>
 
 	</div>
-
 </form>
