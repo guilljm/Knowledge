@@ -1,4 +1,4 @@
-<form method="post">
+{# <form method="post"> #}
 	<nav class="nav-h navbar navbar-expand-md bg-green ">
 
 		<div class="container-fluid p-0">
@@ -46,9 +46,7 @@
 					<input type="hidden" name="id" value="{{ subjectId }}"/>
 					<a class="" href="/subject/add">📝</a>
 					<a class="ms-3" href="/subject/edit?id={{subjectId}}">🛠</a>
-					<input
-					type="submit" class="ms-3 me-3" name="delete" value="🧻">
-					{# <a class="ms-3 me-3 " href="/subject/delete?id={{subjectId}}">🧻</a> #}
+					<input type="submit" class="ms-3 me-3" name="delete" onclick="myFunction({{subjectId}})" value="🧻">
 				{% else %}
 					<a class="me-5" href="/subject/add">📝</a>
 				{% endif %}
@@ -56,4 +54,4 @@
 			</ul>
 		</div>
 	</nav>
-</form>
+{# </form> #}

@@ -82,17 +82,6 @@ class SubjectController extends AbstractController
 
                 $newSubjectId = $subjectManager->add((int)$_SESSION['theme_id'], $name);
 
-                // return $this->twig->render(
-                //     'Subject/add.html.twig',
-                //     [
-                //         'headerTitle' => $_SESSION['theme_name'],
-                //         'titleForm' => 'Ajouter un nouveau sujet',
-                //         // 'validationMessage' => 'Bravo ! le nouveau sujet ' . $name .  ' a bien été ajoutée.',
-                //         'subjectId' => $newSubjectId,
-                //         'themeId' => $_SESSION['theme_id']
-                //     ]
-                // );
-
                 header("Location: /exercise/add?notionid=" . $newSubjectId);
                 return "";
             }
@@ -168,6 +157,15 @@ class SubjectController extends AbstractController
                 'subjectId' => $subjectId
             ]
         );
+    }
+
+    public function delete(): string
+    {
+
+        // $test['id2'] = $_POST['id'];
+        $test['id2'] = "test";
+
+        return json_encode($test);
     }
 
     //     public function delete(string $subjectId): string
