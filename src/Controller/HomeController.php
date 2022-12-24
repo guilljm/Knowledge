@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Model\SubjectManager;
 use App\Model\ThemeManager;
-use App\Model\NotionManager;
 
 class HomeController extends AbstractController
 {
