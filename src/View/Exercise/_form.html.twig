@@ -1,16 +1,11 @@
 <form method="post">
 	<div class="container-fluid main-frame bg-clair">
-
 		<div class="row d-flex justify-content-center">
-			<a class="text-end" href="/notion/show?id={{notionId}}">retour à la page précédente</a>
+			<a class="text-end" href="/notion/show?id={{notion.id}}">retour à la page précédente</a>
 		</div>
-
 		<div class="row d-flex justify-content-center align-items-center h-100">
-
 			<div class="col-8 bg-white h-75 rounded-5">
-
 				<p class="fs-1 pt-5 pb-4 text-center">{{  titleForm }}</p>
-
 				<div class="row mt-5 justify-content-center ">
 					<div class="input-group input-group-lg w-75 m-0 p-0">
 						<span class="col-4 input-group-text fs-4 text-color-clair bg-green">
@@ -19,7 +14,6 @@
 						<input type="text" class="form-control" name="name" value="{{ exercise.name }}">
 					</div>
 				</div>
-
 				{% if errors.name is not empty %}
 					<div class="row justify-content-center">
 						<div class="w-75 m-0 p-0">
@@ -30,7 +24,6 @@
 						</div>
 					</div>
 				{% endif %}
-
 				<div class="row justify-content-center">
 					<div class="input-group input-group-lg w-75 mt-5 m-0 p-0">
 						<span class="col-4 input-group-text fs-4 text-color-clair bg-green">
@@ -39,7 +32,6 @@
 						<input type="text" class="form-control" name="url" value="{{ exercise.url }}">
 					</div>
 				</div>
-
 				{% if errors.url is not empty %}
 					<div class="row justify-content-center">
 						<div class="w-75 m-0 p-0">
@@ -50,13 +42,11 @@
 						</div>
 					</div>
 				{% endif %}
-
 				<div class="row mt-5 justify-content-center">
 					<div class="w-75 mt-5 m-0 p-0">
 						<button type="submit" class="mb-5 w-100 btn btn-lg btn-primary" value="Valider" name="button">Valider</button>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>

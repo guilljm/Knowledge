@@ -18,9 +18,17 @@ class ExerciseManager extends AbstractManager
         return $statement->fetchAll();
     }
 
- 
-    // public function insert(int $notionId, string $name, string $url): int
-    public function insert(int $notionId, array $exercise): int
+
+    public function IsExist(string $name): array|false
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM " . self::TABLE . " WHERE name = :name");
+        $statement->bindValue('name', $name, \PDO::PARAM_STR);
+        $statement->execute();
+
+        return $statement->fetch();
+    }
+
+     public function insert(int $notionId, array $exercise): int
     {
 
         $statement = $this->pdo->prepare("INSERT INTO " . self::TABLE . " 
@@ -33,7 +41,6 @@ class ExerciseManager extends AbstractManager
 
         return $this->pdo->lastInsertId();
     }
-
 
     public function update(int $exerciseId, array $exercise): int
     {

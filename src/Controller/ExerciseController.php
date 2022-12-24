@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Model\ExerciseManager;
 use App\Model\NotionManager;
-use Error;
 
 class ExerciseController extends AbstractController
 {
@@ -18,9 +17,6 @@ class ExerciseController extends AbstractController
         parent::__construct();
     }
 
-    /**
-     * Display home page
-     */
     public function add(string $notionId): string
     {
 
@@ -57,15 +53,17 @@ class ExerciseController extends AbstractController
                     $errors['url'] = "Veuillez saisir le nom de l'url";
                 }
 
+                if (!empty($this->exerciseManager->isExist($exercise['name']))) {
+                    $errors['name'] = "Exercice déjà existant";
+                }
 
                 if (!empty($errors)) {
-
                     return $this->twig->render(
                         'Exercise/add.html.twig',
                         [
                             'headerTitle' => $_SESSION['theme_name'],
                             'titleForm' => 'Ajouter un nouvel exercice à ' . $notion['name'],
-                            'notionId' => $notionId,
+                            'notion' => $notion,
                             'errors' => $errors,
                             'exercise' => $exercise
                         ]
@@ -83,7 +81,7 @@ class ExerciseController extends AbstractController
             [
                 'headerTitle' => $_SESSION['theme_name'],
                 'titleForm' => 'Ajouter un nouvel exercice à ' . $notion['name'],
-                'notionId' => $notionId
+                'notion' => $notion
             ]
         );
     }
@@ -113,28 +111,33 @@ class ExerciseController extends AbstractController
                 if ($_POST['button'] == "Valider") {
                     $errors = [];
 
-                    $exercise = array_map("trim", $_POST);
+                    $exerciseForm = array_map("trim", $_POST);
 
-                    if ($exercise['name'] == "") {
+                    if ($exerciseForm['name'] == "") {
                         $errors['name'] = "Veuillez saisir le nom de l'exercice";
                     }
 
-                    if (!filter_var($exercise['url'], FILTER_VALIDATE_URL)) {
+                    if (!filter_var($exerciseForm['url'], FILTER_VALIDATE_URL)) {
                         $errors['url'] = "Le format de l'url est incorrect";
                     }
 
-                    if ($exercise['url']  == "") {
+                    if ($exerciseForm['url']  == "") {
                         $errors['url'] = "Veuillez saisir le nom de l'url";
                     }
 
-                    if (!empty($errors)) {
+                    if ($exerciseForm['name'] != $exercise['name']) {
+                        if (!empty($this->exerciseManager->isExist($exerciseForm['name']))) {
+                            $errors['name'] = "Exercice déjà existante";
+                        }
+                    }
 
+                    if (!empty($errors)) {
                         return $this->twig->render(
                             'Exercise/add.html.twig',
                             [
                                 'headerTitle' => $_SESSION['theme_name'],
                                 'titleForm' => 'Modifier l\'exercice de ' .  $notion['name'],
-                                'notionId' => $notion['id'],
+                                'notion' => $notion,
                                 'errors' => $errors,
                                 'exercise' => $exercise
                             ]
@@ -144,7 +147,6 @@ class ExerciseController extends AbstractController
                     $this->exerciseManager->update($exerciseId, $exercise);
 
                     header("Location: /notion/show?id=" . $notion['id']);
-
                 }
             }
         }
@@ -154,7 +156,7 @@ class ExerciseController extends AbstractController
             [
                 'exercise' => $exercise,
                 'titleForm' => 'Modifier l\'exercice de ' . $notion['name'],
-                'notionId' => $notion['id']
+                'notion' => $notion
             ]
         );
     }
@@ -162,17 +164,11 @@ class ExerciseController extends AbstractController
     public function delete()
     {
         if (isset($_POST['response'])) {
-
             $exerciseId = (int)$_POST['response'];
-
             $exercise = $this->exerciseManager->selectOneById($exerciseId);
-
             $notionId = (int)$exercise['notion_id'];
-
             $this->exerciseManager->delete($exerciseId);
-
             $route = '/notion/show?id=' . $notionId;
-
             return ($route);
         }
     }

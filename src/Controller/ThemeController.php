@@ -24,13 +24,11 @@ class ThemeController extends AbstractController
             header("Location: /");
         }
 
-        //Récuperer le thème à partir du sujet
         $theme = $this->themeManager->selectOneById((int)$themeId);
 
         $_SESSION['theme_id'] = $themeId;
         $_SESSION['theme_name'] = $theme['name'];
 
-        //Récuperer tous les sujets du thème
         $subjects = $this->subjectManager->selectAllByTheme((int)$themeId);
 
         return $this->twig->render(

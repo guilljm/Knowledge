@@ -18,9 +18,6 @@ class NotionController extends AbstractController
         parent::__construct();
     }
 
-    /**
-     * Display home page
-     */
     public function show(string $notionId): string
     {
         if (!is_numeric($notionId)) {
@@ -50,11 +47,10 @@ class NotionController extends AbstractController
             [
                 'headerTitle' => $_SESSION['theme_name'],
                 'subjects' => $subjects,
-                'subjectname' => $subject['name'],
                 'notions' => $notions,
-                'notion' => $this->notionManager->selectOneById((int)$notionId),
+                'notionSelected' => $this->notionManager->selectOneById((int)$notionId),
                 'exercises' => $exercises,
-                'subjectId' => $subjectId
+                'subjectSelected' => $subject
             ]
         );
     }
@@ -72,7 +68,6 @@ class NotionController extends AbstractController
         $subject = $this->subjectManager->selectOneById((int)$subjectId);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
 
             if (isset($_POST['button']) && $_POST['button'] == "Valider") {
 
@@ -95,13 +90,13 @@ class NotionController extends AbstractController
                     }
                 }
 
-                $notion = array_map("trim", $_POST);
+                $notionForm = array_map("trim", $_POST);
 
-                if (empty($notion['notion'])) {
+                if (empty($notionForm['name'])) {
                     $errors[] = "Veuillez saisir le champ";
                 }
 
-                if (($this->notionManager->isNotion($notion['notion'], $subjectId))) {
+                if (!empty($this->notionManager->isExist($notionForm['name'], $subjectId))) {
                     $errors[] = "Notion déjà existante";
                 }
 
@@ -112,14 +107,15 @@ class NotionController extends AbstractController
                             'headerTitle' => $_SESSION['theme_name'],
                             'titleForm' => 'Ajouter une nouvelle notion à ' . $subject['name'],
                             'subjectId' => $subjectId,
+                            'notion' => $notionForm,
                             'fileErrors' => $fileErrors,
                             'errors' => $errors
                         ]
                     );
                 }
 
-                $notion['fileNameImg'] = $fileNameImg;
-                $newNotionId = $this->notionManager->insert((int)$subjectId, $notion);
+                $notionForm['fileNameImg'] = $fileNameImg;
+                $newNotionId = $this->notionManager->insert((int)$subjectId, $notionForm);
 
                 header("Location: /exercise/add?notionid=" . $newNotionId);
                 return "";
@@ -183,26 +179,25 @@ class NotionController extends AbstractController
                     }
                 }
 
-                if (empty($notionForm['notion'])) {
+                if (empty($notionForm['name'])) {
                     $errors[] = "Veuillez compléter le champ";
                 }
 
-                if ($notionForm['notion'] != $notion['name']) {
-                    if (($this->notionManager->isNotion($notionForm['notion'], (int)$notion['subject_id']))) {
+                if ($notionForm['name'] != $notion['name']) {
+                    if (!empty($this->notionManager->isExist($notionForm['name'], (int)$notion['subject_id']))) {
                         $errors[] = "Notion déjà existante";
                     }
                 }
 
+                $notionForm['id'] = $notionId;
+                
                 if (!empty($errors)) {
                     return $this->twig->render(
-                        'Notion/add.html.twig',
+                        'Notion/edit.html.twig',
                         [
                             'headerTitle' => $_SESSION['theme_name'],
                             'titleForm' => 'Modifier la notion de ' . $subject['name'],
-                            'notionName' => $notionForm['notion'],
-                            'lesson' => $notionForm['lesson'],
-                            'sample' => $notionForm['sample'],
-                            'notionId' => $notionId,
+                            'notion' => $notionForm,
                             'errors' => $errors,
                             'fileErrors' => $fileErrors
                         ]
@@ -220,11 +215,12 @@ class NotionController extends AbstractController
             'Notion/edit.html.twig',
             [
                 'headerTitle' => $_SESSION['theme_name'],
-                'notionName' => $notion['name'],
-                'lesson' => $notion['lesson'],
-                'sample' => $notion['sample'],
+                // 'notionName' => $notion['name'],
+                // 'description' => $notion['description'],
+                // 'sample' => $notion['sample'],
                 'titleForm' => 'Modifier la notion de ' . $subject['name'],
-                'notionId' => $notionId
+                // 'notionId' => $notionId
+                'notion' => $notion
             ]
         );
     }
@@ -233,13 +229,9 @@ class NotionController extends AbstractController
     {
         if (isset($_POST['response'])) {
             $notionId = (int)$_POST['response'];
-
             $subjectId = $this->notionManager->selectOneById($notionId)['subject_id'];
-
             $this->notionManager->delete($notionId);
-
             $route = '/subject/show?id=' . $subjectId;
-
             return ($route);
         }
     }

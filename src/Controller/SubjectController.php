@@ -26,11 +26,9 @@ class SubjectController extends AbstractController
             header("Location: /");
         }
 
-        //Récuperer tous les sujets du thème
         $subjects = $this->subjectManager->selectAllByTheme((int)$_SESSION['theme_id']);
         $subject = $this->subjectManager->selectOneById($subjectId);
 
-        //Récuperer toutes les notions du sujet
         $notionManager = new NotionManager();
         $notions = $notionManager->selectAllBySubject((int)$subjectId);
 
@@ -40,8 +38,7 @@ class SubjectController extends AbstractController
                 'headerTitle' => $_SESSION['theme_name'],
                 'subjects' => $subjects,
                 'notions' => $notions,
-                'subjectname' => $subject['name'],
-                'subjectId' => $subjectId
+                'subjectSelected' => $subject
             ]
         );
     }
@@ -63,7 +60,7 @@ class SubjectController extends AbstractController
                     $errors['name'] = "Veuillez saisir le nom du sujet";
                 }
                 
-                if (($this->subjectManager->getName($name, (int)$_SESSION['theme_id']))) {
+                if (($this->subjectManager->isExist($name, (int)$_SESSION['theme_id']))) {
                     $errors['name'] = "Notion déjà existante";
                 }
 
@@ -113,7 +110,7 @@ class SubjectController extends AbstractController
             $name = trim($_POST['name']);
             $errors = [];
 
-            if (($this->subjectManager->getName($name, (int)$_SESSION['theme_id']))) {
+            if (($this->subjectManager->isExist($name, (int)$_SESSION['theme_id']))) {
                 $errors['name'] = "Notion déjà existante";
             }
 

@@ -9,9 +9,6 @@ use App\Model\NotionManager;
 class HomeController extends AbstractController
 {
     public const TITLE = 'KNOWLEDGE';
-    /**
-     * Display ThemeList
-     */
 
     public function index(): string
     {
@@ -25,5 +22,4 @@ class HomeController extends AbstractController
             ]
         );
     }
-
 }

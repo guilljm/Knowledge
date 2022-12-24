@@ -12,19 +12,12 @@
 {% endblock %}
 
 {% block content %}
-
 	<div class="container-fluid p-0 overflow-hidden">
-
-		{# {% if notions is not empty %}  #}
 		{% include 'Notion/list.html.twig' %}
-		{# {% endif %}  #}
-
-		{% if notion %}
+		{% if notionSelected is defined %}
 			{% include 'Notion/notion.html.twig' %}
 		{% else %}
 			{% include 'Notion/logo.html.twig' %}
 		{% endif %}
-
 	</div>
-
 {% endblock %}

@@ -24,10 +24,9 @@ class SubjectManager extends AbstractManager
         $statement->execute();
 
         return $statement->fetchAll();
-        // return (int)$this->pdo->lastInsertId();
     }
 
-    public function getName(string $name, int $themeId): array|false
+    public function isExist(string $name, int $themeId): array|false
     {
         $statement = $this->pdo->prepare("SELECT * FROM " . self::TABLE . " WHERE name = :name and theme_id = :themeid");
         $statement->bindValue('name', $name, \PDO::PARAM_STR);

@@ -1,63 +1,66 @@
 <form method="post">
-
 	<div class="main-frame body-margin overflow-auto">
-
 		<div class="row justify-content-around me-0">
 			<div class="col-11 mt-4">
 				<div class="lecon-exemples-card card bg-white mb-3">
-					<p class="h5 card-header">Leçon</p>
+					<p class="h5 card-header">Description</p>
 					<div class="card-body">
-						<p class="card-text">{{notion.lesson | nl2br }}</p>
+						<p class="card-text">{{notionSelected.description | nl2br }}</p>
 					</div>
 				</div>
 			</div>
 		</div>
-
 		<div class="row me-0 justify-content-around">
 			<div class="col-11 mt-4">
 				<div class="card lecon-exemples-card bg-white">
 					<p class="h5 card-header">Exemple</p>
 					<div class="card-body">
-						<p class="card-text">{{ notion.sample | nl2br}}</p>
-						{% if notion.file_image is not empty %}
-							<img src="{{notion.file_image}}">
+						<p class="card-text">{{ notionSelected.sample | nl2br}}</p>
+						{% if notionSelected.file_image is not empty %}
+							<img src="{{notionSelected.file_image}}">
 						{% endif %}
 					</div>
 				</div>
 			</div>
 		</div>
-
 		<div class="row me-0 mt-3 mb-3 justify-content-center">
-
 			<div class="col-11">
 				<div class="card exercices-card">
-
 					<div class="card-header d-flex justify-content-between align-items-center">
 						<p class="h5">Exercices</p>
 						<div>
-							<a class="fs-5" href="/exercise/add?notionid={{ notion.id }}">📝</a>
+							<a class="fs-5" href="/exercise/add?notionid={{ notionSelected.id }}">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="dark" class="bi bi-plus-square" viewbox="0 0 16 16">
+									<path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+									<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+								</svg>
+							</a>
 						</div>
 					</div>
-
 					<div class="card-body m-0 p-0">
 						<div class="list-group rounded rounded-0">
 							{% for exercise in exercises %}
-					
-								<div class="d-flex justify-content-between list-group-item"> 
-									{# <div class="col-4 border border-primary"> #}
-										<a class="text-color-green fs-6" target="_blank" href="{{exercise.url}}">{{ exercise.name }}</a>
-									{# </div> #}
-
-									<div class="col-1 d-flex justify-content-end">
-										<a class="fs-5 me-2" href="/exercise/edit?id={{exercise.id}}">🛠</a>
-										<input type="submit" class="fs-6 me-0 border border-0" name="delete" onclick="myFunction('/exercise/delete', {{exercise.id}})" value="🧻">
+								<div class="d-flex justify-content-between list-group-item">
+									<a class="text-color-green fs-6" target="_blank" href="{{exercise.url}}">{{ exercise.name }}</a>
+									<div class="col-1 d-flex justify-content-end align-items-center">
+										<a class="fs-5 me-2" href="/exercise/edit?id={{exercise.id}}">
+											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="dark" class="bi bi-pencil" viewbox="0 0 16 16">
+												<path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+											</svg>
+										</a>
+										<a type="submit" class="fs-6 me-0" name="delete" onclick="myFunction('/exercise/delete', {{exercise.id}})">
+											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="dark" class="bi bi-trash" viewbox="0 0 16 16">
+												<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+												<path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+											</svg>
+										</a>
 									</div>
 								</div>
 							{% endfor %}
-
 						</div>
 					</div>
-
+				</div>
 			</div>
 		</div>
-	</form>
+	</div>
+</form>
