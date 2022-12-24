@@ -4,11 +4,19 @@ namespace App\Controller;
 
 use App\Model\ExerciseManager;
 use App\Model\NotionManager;
+use Error;
 
 class ExerciseController extends AbstractController
 {
     private NotionManager $notionManager;
     private ExerciseManager $exerciseManager;
+
+    public function __construct()
+    {
+        $this->exerciseManager = new ExerciseManager();
+        $this->notionManager = new NotionManager();
+        parent::__construct();
+    }
 
     /**
      * Display home page
@@ -21,36 +29,36 @@ class ExerciseController extends AbstractController
         }
 
         if (!isset($_SESSION['theme_id']) || !isset($_SESSION['theme_name'])) {
-            return "Session variables undefined";
+            header("Location: /");
         }
 
-        $this->notionManager = new NotionManager();
         $notion = $this->notionManager->selectOneById($notionId);
 
         if (!$notion) {
             header("Location: /");
         }
 
-        // $subjectId = $this->notionManager->selectOneById((int)$notionId)['subject_id'];
-
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if (isset($_POST['button']) && $_POST['button'] == "Valider") {
-                $nameErrors = [];
-                $urlErrors = [];
+                $errors = [];
 
-                $name = trim($_POST['name']);
-                $url = trim($_POST['url']);
+                $exercise = array_map("trim", $_POST);
 
-                if ($name == "") {
-                    $nameErrors[] = "Veuillez saisir le champ";
+                if ($exercise['name'] == "") {
+                    $errors['name'] = "Veuillez saisir le nom de l'exercice";
                 }
 
-                if ($url == "") {
-                    $urlErrors[] = "Veuillez saisir le champ";
+                if (!filter_var($exercise['url'], FILTER_VALIDATE_URL)) {
+                    $errors['url'] = "Le format de l'url est incorrect";
                 }
 
-                if ($name == "" || $url == "") {
+                if ($exercise['url']  == "") {
+                    $errors['url'] = "Veuillez saisir le nom de l'url";
+                }
+
+
+                if (!empty($errors)) {
 
                     return $this->twig->render(
                         'Exercise/add.html.twig',
@@ -58,26 +66,13 @@ class ExerciseController extends AbstractController
                             'headerTitle' => $_SESSION['theme_name'],
                             'titleForm' => 'Ajouter un nouvel exercice à ' . $notion['name'],
                             'notionId' => $notionId,
-                            'nameErrors' => $nameErrors,
-                            'urlErrors' => $urlErrors
+                            'errors' => $errors,
+                            'exercise' => $exercise
                         ]
                     );
                 }
 
-                $this->exerciseManager = new ExerciseManager();
-                $this->exerciseManager->add($notionId, $name, $url);
-
-                // $validationMessage = 'Bravo ! le nouvel exercise ' . $name .  ' a bien été ajouté.';
-
-                // return $this->twig->render(
-                //     'Exercise/add.html.twig',
-                //     [
-                //         'headerTitle' => $_SESSION['theme_name'],
-                //         'titleForm' => 'Ajouter un nouvel exercice',
-                //         'validationMessage' => $validationMessage,
-                //         'subjectId' => $subjectId
-                //     ]
-                // );
+                $this->exerciseManager->insert($notionId, $exercise);
 
                 header("Location: /notion/show?id=" . $notionId);
             }
@@ -100,62 +95,56 @@ class ExerciseController extends AbstractController
         }
 
         if (!isset($_SESSION['theme_id']) || !isset($_SESSION['theme_name'])) {
-            return "Session variables undefined";
+            header("Location: /");
         }
 
-        $exerciseManager = new ExerciseManager();
-        $exercise = $exerciseManager->selectOneById($exerciseId);
+        $exercise = $this->exerciseManager->selectOneById($exerciseId);
 
         if (!$exercise) {
             header("Location: /");
         }
 
-        $notionManager = new NotionManager();
-        // $subjectId = $notionManager->selectOneById((int)$_SESSION['theme_id'])['subject_id'];
-        $notion = $notionManager->selectOneById($exercise['notion_id']);
-
-
-        // $validationMessage = "";
+        $notion = $this->notionManager->selectOneById($exercise['notion_id']);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            
+
             if (isset($_POST['button'])) {
 
                 if ($_POST['button'] == "Valider") {
+                    $errors = [];
 
-                    $urlErrors = [];
-                    $nameErrors = [];
+                    $exercise = array_map("trim", $_POST);
 
-                    $name = trim($_POST['name']);
-                    $url = trim($_POST['url']);
-
-                    if ($name == "") {
-                        $nameErrors[] = "Veuillez saisir le champ";
+                    if ($exercise['name'] == "") {
+                        $errors['name'] = "Veuillez saisir le nom de l'exercice";
                     }
 
-                    if ($url == "") {
-                        $urlErrors[] = "Veuillez saisir le champ";
+                    if (!filter_var($exercise['url'], FILTER_VALIDATE_URL)) {
+                        $errors['url'] = "Le format de l'url est incorrect";
                     }
 
-                    if ($name == "" || $url == "") {
+                    if ($exercise['url']  == "") {
+                        $errors['url'] = "Veuillez saisir le nom de l'url";
+                    }
+
+                    if (!empty($errors)) {
 
                         return $this->twig->render(
                             'Exercise/add.html.twig',
                             [
                                 'headerTitle' => $_SESSION['theme_name'],
                                 'titleForm' => 'Modifier l\'exercice de ' .  $notion['name'],
-                                'notiontId' => $notion['id'],
-                                'nameErrors' => $nameErrors,
-                                'urlErrors' => $urlErrors
+                                'notionId' => $notion['id'],
+                                'errors' => $errors,
+                                'exercise' => $exercise
                             ]
                         );
                     }
 
-                    $exerciseManager->update($exerciseId, $_POST['name'], $_POST['url']);
+                    $this->exerciseManager->update($exerciseId, $exercise);
 
                     header("Location: /notion/show?id=" . $notion['id']);
 
-                    // $validationMessage = 'Bravo ! le nouvel exercise ' . $name .  ' a bien été modifié.';
                 }
             }
         }
@@ -163,31 +152,28 @@ class ExerciseController extends AbstractController
         return $this->twig->render(
             'Exercise/edit.html.twig',
             [
-                'name' => $exercise['name'],
-                'url' => $exercise['url'],
+                'exercise' => $exercise,
                 'titleForm' => 'Modifier l\'exercice de ' . $notion['name'],
                 'notionId' => $notion['id']
-                // 'validationMessage' => $validationMessage,
             ]
         );
     }
 
-
-    public function delete(string $exerciseId): void
+    public function delete()
     {
+        if (isset($_POST['response'])) {
 
-        if (!is_numeric($exerciseId)) {
-            header("Location: /");
+            $exerciseId = (int)$_POST['response'];
+
+            $exercise = $this->exerciseManager->selectOneById($exerciseId);
+
+            $notionId = (int)$exercise['notion_id'];
+
+            $this->exerciseManager->delete($exerciseId);
+
+            $route = '/notion/show?id=' . $notionId;
+
+            return ($route);
         }
-
-        $exerciseManager = new ExerciseManager();
-        $exercise = $exerciseManager->selectOneById((int)$exerciseId);
-        $exerciseManager->delete((int)$exerciseId);
-
-        $notionManager = new NotionManager();
-
-        $notion = $notionManager->selectOneById((int)$exercise['notion_id']);
-
-        header("Location: /subject/show?id=" . $notion['subject_id']);
     }
 }

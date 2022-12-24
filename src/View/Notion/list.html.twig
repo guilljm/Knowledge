@@ -1,0 +1,53 @@
+<form method="post">
+	<div class="main-frame weight-300 bg-clair position-fixed">
+
+		{% for subject in subjects %}
+			{% if (subject.id == subjectId) %}
+				<p class="mt-3 fs-5 text-center text-color-green">
+					<strong>{{ subjectname }}</strong>
+				</p>
+			{% endif %}
+		{% endfor %}
+
+		{# <div class="mt-1 list-group border"> #}
+		<div class="mt-1">
+
+			{% if subjectId is defined %}
+				<div class="d-flex align-items-center justify-content-between border-0 bg-green">
+					<p class="h5 p-2 mt-1 text-color-clair">Notions</p>
+					<a class="fs-6 me-3" href="/notion/add?subjectid={{ subjectId }}">📝</a>
+				</div>
+			{% endif %}
+
+			<div class="list-group overflow-auto notion-list">
+				{% for notionitem in notions %}
+
+					{% if notion.id == notionitem.id %}
+						<div class="list-group-item bg-light-grey d-flex align-items-center justify-content-between">
+							<a class="text-color-green" href="/notion/show?id={{notionitem.id}}">
+								<strong>{{ notionitem.name}}</strong>
+							</a>
+
+							<input type="hidden" name="id" value="{{ notionitem.id }}"/>
+
+							<div>
+								<a class="fs-6" href="/notion/edit?id={{notionitem.id}}">🛠</a>
+								<input type="submit" class="fs-6" name="delete" onclick="myFunction('/notion/delete', {{notionId}})" value="🧻">
+							</div>
+						</div>
+					{% else %}
+						<div class="list-group-item bg-clair">
+							{% if loop.first %}
+								<a class="hover text-color-green " href="/notion/show?id={{notionitem.id}}">{{ notionitem.name}}</a>
+							{% else %}
+								<a class="hover border-top-0  text-color-green" href="/notion/show?id={{notionitem.id}}">{{ notionitem.name}}</a>
+							{% endif %}
+						</div>
+					{% endif %}
+
+				{% endfor %}
+			</div>
+
+		</div>
+	</div>
+</form>

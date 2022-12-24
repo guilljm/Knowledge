@@ -37,7 +37,7 @@ class SubjectManager extends AbstractManager
         return $statement->fetch();
     }
 
-    public function add(int $themeId, string $name): int
+    public function insert(int $themeId, string $name): int
     {
         $statement = $this->pdo->prepare("INSERT INTO " . self::TABLE . " 
             (name, theme_id) VALUES (:name, :theme_id)");

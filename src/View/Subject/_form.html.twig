@@ -1,10 +1,10 @@
 <form method="post">
 
-	<div class="container-fluid body-h bg-clair">
+	<div class="container-fluid main-frame bg-clair">
 
 		<div class="row d-flex justify-content-center">
-			{% if subjectId is defined %}
-				<a class="text-end" href="/subject/show?id={{subjectId}}">retour à la page précédente</a>
+			{% if subject.id is defined %}
+				<a class="text-end" href="/subject/show?id={{subject.id}}">retour à la page précédente</a>
 			{% else %}
 				<a class="text-end" href="/theme/show?id={{themeId}}">retour à la page précédente</a>
 			{% endif %}
@@ -12,37 +12,42 @@
 
 		<div class="row d-flex justify-content-center align-items-center h-100">
 
-			<div class="col-8 bg-white h-50 rounded-5">
+			<div class="col-8 bg-white h-75 rounded-5">
 
-				<p class="fs-1 pt-4 text-center">{{  titleForm }}</p>
+				<p class="fs-1 pt-5 pb-4 text-center">{{  titleForm }}</p>
 
-				<div class="row h-25 mt-5 ms-5 pe-5 justify-content-center align-items-center">
-					<div class="input-group input-group-lg w-75">
+				<div class="row mt-5 justify-content-center">
+					<div class="input-group input-group-lg mt-5 w-75 m-0 p-0">
 						<span class="col-3 input-group-text fs-4 text-color-clair bg-green">
 							Nom du sujet
 						</span>
-						<input type="text" class="form-control" name="name" value="{{ name }}">
-					</div>
 
-					{% if nameErrors is not empty %}
-						<div class="mt-2 ms-4 w-75 alert alert-dismissible alert-primary">
-							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-							{% for error in nameErrors %}
-								<strong>{{error}}</strong>
-							{% endfor %}
-						</div>
-					{% endif %}
+						<input type="text" class="form-control" name="name" value="{{ subject.name }}">
+					</div>
 				</div>
 
-				<div class="row d-flex mt-5 mb-5 justify-content-center">
-					<div
-						class="col-8">
-						{# <button type="submit" class="mb-5 w-25 btn btn-lg btn-primary" value="Annuler" name="button">Annuler</button> #}
-						<button type="submit" class="mb-5 w-100 btn btn-lg btn-primary" value="Valider" name="button">Valider</button>
+				{% if errors.name is not empty %}
+					<div class="row justify-content-center">
+						<div class="w-75 m-0 p-0">
+							<div class="alert alert-dismissible alert-primary">
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+								<strong>{{errors.name}}</strong>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+
+				<div class="row mt-5 justify-content-center">
+					<div class="w-75 mt-5 m-0 p-0" ">
+						<button type="submit" class="mt-5 w-100 btn btn-lg btn-primary" value="Valider" name="button">Valider</button>
 					</div>
 				</div>
 
 			</div>
+
 		</div>
+
 	</div>
+
 </form>

@@ -4,49 +4,37 @@ namespace App\Controller;
 
 use App\Model\SubjectManager;
 use App\Model\ThemeManager;
-use App\Model\NotionManager;
 
 class ThemeController extends AbstractController
 {
     public const TITLE = 'KNOWLEDGE';
-    /**
-     * Display ThemeList
-     */
+    private ThemeManager $themeManager;
+    private SubjectManager $subjectManager;
 
-    public function index(): string
+    public function __construct()
     {
-        $themeManager = new ThemeManager();
-
-        return $this->twig->render(
-            'Theme/index.html.twig',
-            [
-                'headerTitle' => self::TITLE,
-                'themes' => $themeManager->selectAll()
-            ]
-        );
+        $this->themeManager = new ThemeManager();
+        $this->subjectManager = new SubjectManager();
+        parent::__construct();
     }
-
+    
     public function show(string $themeId): string
     {
         if (!is_numeric($themeId)) {
             header("Location: /");
         }
 
-        $_SESSION['theme_id'] = $themeId;
-
-        $themeManager = new ThemeManager();
-
         //Récuperer le thème à partir du sujet
-        $theme = $themeManager->selectOneById((int)$themeId);
+        $theme = $this->themeManager->selectOneById((int)$themeId);
 
+        $_SESSION['theme_id'] = $themeId;
         $_SESSION['theme_name'] = $theme['name'];
 
         //Récuperer tous les sujets du thème
-        $subjectManager = new SubjectManager();
-        $subjects = $subjectManager->selectAllByTheme((int)$themeId);
+        $subjects = $this->subjectManager->selectAllByTheme((int)$themeId);
 
         return $this->twig->render(
-            'Notion/index.html.twig',
+            'Theme/index.html.twig',
             [
                 'headerTitle' => $theme['name'],
                 'subjects' => $subjects

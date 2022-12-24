@@ -1,6 +1,6 @@
 /* ---------- Theme page ---------- */
 
-.body-theme-h {
+.main-frame {
     height: calc(100vh - 60px - 40px - 40px);
 }
 
@@ -8,12 +8,12 @@
     height: 40px;
 }
 
-.aside-w {
+.weight-300 {
     width: 300px;
-}
+} 
 
 .notion-list {
-    height: 700px;
+    height: 650px;
 }
 
 .body-margin {
@@ -21,7 +21,7 @@
 }
 
 .lecon-exemples-card {
-    height: 550px;
+    min-height: 300px;
 }
 
 .textarea-form {
@@ -34,7 +34,7 @@
 
 a:hover,
 .hover:hover {
-    color: rgb(172, 172, 235);
+    color: red;
 }
 
 .dropdown-menu {

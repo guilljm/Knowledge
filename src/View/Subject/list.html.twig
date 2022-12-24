@@ -4,20 +4,20 @@
 		<div class="container-fluid p-0">
 
 			<ul class="navbar-nav text-center align-items-center ">
-
-				{% for i in range(0,8) %}
-
+			 {% if subjects|length > 0 %}
+				{% for i in range(0, min (8, subjects|length-1)) %}  
 					<li class="col-2 me-3 nav-item">
 
 						{% if subjectId == subjects[i].id %}
 							<a class="nav-link hover fs-6 bg-clair text-color-green" href="/subject/show?id={{ subjects[i].id }}">{{ subjects[i].name|upper }}</a>
 						{% else %}
-							<a class="nav-link text-color-clair fs-6" href="/subject/show?id={{ subjects[i].id }}">{{ subjects[i].name|upper }}</a>
+							<a class="nav-link hover text-color-clair fs-6" href="/subject/show?id={{ subjects[i].id }}">{{ subjects[i].name|upper }}</a>
 						{% endif %}
 
 					</li>
 
 				{% endfor %}
+			{% endif %}	
 			</ul>
 
 			<ul class="navbar-nav align-items-center">>
@@ -31,7 +31,7 @@
 						<ul class="dropdown-menu bg-green">
 							{% for i in range(9,subjects|length-1) %}
 								<li>
-									<a class="menu-item text-color-white nav-link fs-6" href="/subject/show?id={{ subjects[i].id }}">{{ subjects[i].name|upper }}</a>
+									<a class="menu-item text-color-clair hover nav-link fs-6" href="/subject/show?id={{ subjects[i].id }}">{{ subjects[i].name|upper }}</a>
 								</li>
 
 							{% endfor %}
@@ -46,7 +46,7 @@
 					<input type="hidden" name="id" value="{{ subjectId }}"/>
 					<a class="" href="/subject/add">📝</a>
 					<a class="ms-3" href="/subject/edit?id={{subjectId}}">🛠</a>
-					<input type="submit" class="ms-3 me-3" name="delete" onclick="myFunction({{subjectId}})" value="🧻">
+					<input type="submit" class="ms-3 me-3" name="delete" onclick="myFunction('/subject/delete', {{subjectId}})" value="🧻">
 				{% else %}
 					<a class="me-5" href="/subject/add">📝</a>
 				{% endif %}

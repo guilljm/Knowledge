@@ -1,57 +1,63 @@
-<div class="body-theme-h body-margin overflow-auto">
+<form method="post">
 
-	<div class="row ms-0 me-0  justify-content-around">
+	<div class="main-frame body-margin overflow-auto">
 
-		<div class="col-5 mt-4">
-			<div class="lecon-exemples-card card bg-white mb-3">
-				<p class="h5 card-header">Leçon</p>
-				<div class="card-body">
-					<p class="card-text">{{notion.lesson | nl2br }}</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-5 mt-4">
-			<div class="card lecon-exemples-card bg-white">
-				<p class="h5 card-header">Exemple</p>
-				<div class="card-body">
-					<p class="card-text">{{ notion.sample | nl2br}}</p>
-					{% if notion.image is not empty %}
-						<img src="{{notion.image}}">
-					{% endif %}
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="row mt-3 ms-0 me-0 mb-3 justify-content-center">
-
-		<div class="col-11">
-			<div class="card exercices-card">
-
-				<div class="card-header d-flex justify-content-between align-items-center">
-					<p class="h5">Exercices</p>
-					<div>
-						<a class="fs-5" href="/exercise/add?notionid={{ notion.id }}">📝</a>
+		<div class="row justify-content-around me-0">
+			<div class="col-11 mt-4">
+				<div class="lecon-exemples-card card bg-white mb-3">
+					<p class="h5 card-header">Leçon</p>
+					<div class="card-body">
+						<p class="card-text">{{notion.lesson | nl2br }}</p>
 					</div>
 				</div>
+			</div>
+		</div>
 
-				<div class="card-body">
-					{% for exercise in exercises %}
-						<div class="border border-5 border-bottom p-1 bg-light-grey d-flex flex-nowrap align-items-center justify-content-between">
-
-							<a class="bg-light-grey text-color-green fs-5" target="_blank" href="{{exercise.url}}">{{ exercise.name }}</a>
-
-							<div>
-								<a class="fs-5" href="/exercise/edit?id={{exercise.id}}">🛠</a>
-								<a class="fs-5" href="/exercise/delete?id={{exercise.id}}">🧻</a>
-							</div>
-						</div>
-					{% endfor %}
+		<div class="row me-0 justify-content-around">
+			<div class="col-11 mt-4">
+				<div class="card lecon-exemples-card bg-white">
+					<p class="h5 card-header">Exemple</p>
+					<div class="card-body">
+						<p class="card-text">{{ notion.sample | nl2br}}</p>
+						{% if notion.file_image is not empty %}
+							<img src="{{notion.file_image}}">
+						{% endif %}
+					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="row me-0 mt-3 mb-3 justify-content-center">
+
+			<div class="col-11">
+				<div class="card exercices-card">
+
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<p class="h5">Exercices</p>
+						<div>
+							<a class="fs-5" href="/exercise/add?notionid={{ notion.id }}">📝</a>
+						</div>
+					</div>
+
+					<div class="card-body m-0 p-0">
+						<div class="list-group rounded rounded-0">
+							{% for exercise in exercises %}
+					
+								<div class="d-flex justify-content-between list-group-item"> 
+									{# <div class="col-4 border border-primary"> #}
+										<a class="text-color-green fs-6" target="_blank" href="{{exercise.url}}">{{ exercise.name }}</a>
+									{# </div> #}
+
+									<div class="col-1 d-flex justify-content-end">
+										<a class="fs-5 me-2" href="/exercise/edit?id={{exercise.id}}">🛠</a>
+										<input type="submit" class="fs-6 me-0 border border-0" name="delete" onclick="myFunction('/exercise/delete', {{exercise.id}})" value="🧻">
+									</div>
+								</div>
+							{% endfor %}
+
+						</div>
+					</div>
 
 			</div>
-
 		</div>
-	</div>
-</div>
+	</form>
