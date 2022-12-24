@@ -64,12 +64,15 @@ class SubjectController extends AbstractController
                     $errors['name'] = "Notion déjà existante";
                 }
 
+                $subject['name'] = $name;
+                
                 if (!empty($errors)) {
                     return $this->twig->render(
                         'Subject/add.html.twig',
                         [
                             'headerTitle' => $_SESSION['theme_name'],
                             'titleForm' => 'Ajouter un nouveau sujet',
+                            'subject' => $subject, 
                             'errors' => $errors,
                             'themeId' => $_SESSION['theme_id']
                         ]

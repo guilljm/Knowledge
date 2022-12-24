@@ -144,7 +144,7 @@ class ExerciseController extends AbstractController
                         );
                     }
 
-                    $this->exerciseManager->update($exerciseId, $exercise);
+                    $this->exerciseManager->update($exerciseId, $exerciseForm);
 
                     header("Location: /notion/show?id=" . $notion['id']);
                 }
