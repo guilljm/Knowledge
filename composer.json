@@ -1,10 +1,10 @@
 {
-    "name": "wildcodeschool/simple-mvc",
-    "description": "Simple from scratch PHP MVC for WildCodeSchool students",
+    "name": "project/knowledge",
+    "description": "Manage your knowledge",
     "authors": [
         {
-            "name": "Aurelien",
-            "email": "aurelien.barbier@wildcodeschool.com"
+            "name": "Jean-Marc Guillaumé",
+            "email": "jeanmarc.guillaumee@gmail.com"
         }
     ],
     "minimum-stability": "stable",
