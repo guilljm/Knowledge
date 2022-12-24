@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `knowledge`.`notion` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `created_at` DATE NULL,
   `name` VARCHAR(45) NULL,
-  `lesson` TEXT NULL,
+  `description` TEXT NULL,
   `sample` TEXT NULL,
   `subject_id` INT NULL,
   PRIMARY KEY (`id`),
