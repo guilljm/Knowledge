@@ -1,4 +1,4 @@
-# Simple MVC
+# Knowledge based on Simple MVC architecture
 
 ## Description
 
